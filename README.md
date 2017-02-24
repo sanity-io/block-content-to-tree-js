@@ -1,2 +1,2 @@
-# slate-output-parser
-Customizable parser for Slate editor output
+# block-content.adapter
+Customizable parser for block editor output
