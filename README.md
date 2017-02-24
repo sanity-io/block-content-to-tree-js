@@ -1,2 +1,2 @@
-# block-content.adapter
+# block-content-adapter
 Customizable parser for block editor output
