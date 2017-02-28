@@ -5,11 +5,85 @@ import Adapter from '../src/Adapter.js'
 
 const adapter = new Adapter()
 
-test('handles a plain string', t => {
-  const expected = [
-    'one'
-  ]
-  t.same(adapter.parse(), expected)
+test('handles a plain string block', {todo: true}, t => {
+  const input = require('./fixtures/plain-text.json')
+  const expected = {
+    type: 'text',
+    style: 'plain',
+    content: [
+      'Normal string of text.',
+    ]
+  }
+  const got = adapter.parse(input)
+  t.same(got, expected)
+  t.end()
+})
+
+
+test('handles italicized text', {todo: false}, t => {
+  const input = require('./fixtures/italicized-text.json')
+  const expected = {
+    type: 'text',
+    style: 'plain',
+    content: [
+      'String with an ',
+      {
+        type: 'em',
+        content: [
+          'italicized'
+        ]
+      },
+      ' word.'
+    ]
+  }
+  const got = adapter.parse(input)
+  console.log("GOT\n", JSON.stringify(got, null, 2))
+  t.same(got, expected)
+  t.end()
+})
+
+test('handles bold-underline text', {todo: true}, t => {
+  const input = require('./fixtures/bold-underline-text.json')
+  const expected = {
+    type: 'text',
+    style: 'plain',
+    content: [
+      'Plain ',
+      {
+        type: 'strong',
+        content: [
+          'only-bold ',
+          {
+            type: 'underline',
+            content: [
+              'bold-and-underline '
+            ]
+          }
+        ]
+      },
+      {
+        type: 'underline',
+        content: [
+          'only-underline'
+        ]
+      },
+      ' plain'
+    ]
+  }
+  t.same(adapter.parse(input), expected)
+  t.end()
+})
+
+test('handles a plain h2 block', {todo: true}, t => {
+  const input = require('./fixtures/h2-text.json')
+  const expected = {
+    type: 'text',
+    style: 'h2',
+    content: [
+      'Such h2 header, much amaze'
+    ]
+  }
+  t.same(adapter.parse(input), expected)
   t.end()
 })
 
