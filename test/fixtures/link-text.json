@@ -1,0 +1,55 @@
+{
+  "_type": "block",
+  "style": "normal",
+  "spans": [
+    {
+      "_type": "span",
+      "text": "String with link to ",
+      "marks": []
+    },
+    {
+      "_type": "span",
+      "text": "internet ",
+      "marks": [],
+      "link": {
+        "href": "http://icanhas.cheezburger.com/"
+      }
+    },
+    {
+      "_type": "span",
+      "text": "",
+      "marks": []
+    },
+    {
+      "_type": "span",
+      "text": "and",
+      "marks": [
+        "strong",
+        "em"
+      ],
+      "link": {
+        "href": "http://icanhas.cheezburger.com/"
+      }
+    },
+    {
+      "_type": "span",
+      "text": "",
+      "marks": []
+    },
+    {
+      "_type": "span",
+      "text": " such",
+      "marks": [
+        "em"
+      ],
+      "link": {
+        "href": "http://icanhas.cheezburger.com/"
+      }
+    },
+    {
+      "_type": "span",
+      "text": ".",
+      "marks": []
+    }
+  ]
+}

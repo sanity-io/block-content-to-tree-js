@@ -93,6 +93,47 @@ test('handles bold-underline text', {todo: false}, t => {
   t.end()
 })
 
+test('handles a messy text', {todo: false}, t => {
+  const input = require('./fixtures/messy-text.json')
+  const expected = {
+    type: 'text',
+    style: 'plain',
+    content: [
+      'Hacking ',
+      {
+        type: 'code',
+        content: [
+          'teh codez'
+        ]
+      },
+      ' is ',
+      {
+        type: 'strong',
+        content: [
+          'all ',
+          {
+            type: 'underline',
+            content: [
+              'fun'
+            ]
+          },
+          ' and ',
+          {
+            type: 'em',
+            content: [
+              'games'
+            ]
+          },
+          ' until'
+        ]
+      },
+      ' someone gets p0wn3d.'
+    ]
+  }
+  t.same(adapter.parse(input), expected)
+  t.end()
+})
+
 test('handles a plain h2 block', {todo: false}, t => {
   const input = require('./fixtures/h2-text.json')
   const expected = {
