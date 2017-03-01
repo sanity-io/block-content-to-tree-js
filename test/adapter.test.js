@@ -134,13 +134,63 @@ test('handles a messy text', {todo: false}, t => {
   t.end()
 })
 
+test('handles simple link text', {todo: false}, t => {
+  const input = require('./fixtures/link-simple-text.json')
+  const expected = {
+    type: 'text',
+    content: [
+      'String before link ',
+      {
+        type: 'link',
+        attributes: {
+          href: 'http://icanhas.cheezburger.com/'
+        },
+        content: [
+          'actual link text'
+        ]
+      },
+      ' the rest'
+    ]
+  }
+  t.same(adapter.parse(input), expected)
+  t.end()
+})
+
+test('handles messy link text', {todo: false}, t => {
+  const input = require('./fixtures/link-messy-text.json')
+  const expected = {
+    type: 'text',
+    content: [
+      'String with link to ',
+      {
+        type: 'link',
+        attributes: {
+          href: 'http://icanhas.cheezburger.com/'
+        },
+        content: [
+          'internet ',
+          {
+            type: 'strong',
+            content: [
+              'and'
+            ]
+          },
+          ' such'
+        ]
+      }
+    ]
+  }
+  t.same(adapter.parse(input), expected)
+  t.end()
+})
+
 test('handles a plain h2 block', {todo: false}, t => {
   const input = require('./fixtures/h2-text.json')
   const expected = {
     type: 'text',
     style: 'h2',
     content: [
-      'Normal string of text.'
+      'Such h2 header, much amaze'
     ]
   }
   t.same(adapter.parse(input), expected)

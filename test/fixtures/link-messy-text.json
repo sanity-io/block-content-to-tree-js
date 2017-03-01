@@ -17,11 +17,6 @@
     },
     {
       "_type": "span",
-      "text": "",
-      "marks": []
-    },
-    {
-      "_type": "span",
       "text": "and",
       "marks": [
         "strong",
@@ -30,11 +25,6 @@
       "link": {
         "href": "http://icanhas.cheezburger.com/"
       }
-    },
-    {
-      "_type": "span",
-      "text": "",
-      "marks": []
     },
     {
       "_type": "span",

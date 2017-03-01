@@ -55,10 +55,8 @@ const block = data => {
     case 'heading':
       return {
         type: 'text',
-        style: 'h2',
-        content: [
-          'Normal string of text.',
-        ]
+        style: data.style,
+        content: getContent(data.spans)
       }
     default:
       return {}
