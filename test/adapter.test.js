@@ -41,6 +41,26 @@ test('handles italicized text', {todo: false}, t => {
   t.end()
 })
 
+test('handles underline text', {todo: false}, t => {
+  const input = require('./fixtures/underlined-text.json')
+  const expected = {
+    type: 'text',
+    style: 'plain',
+    content: [
+      'String with an ',
+      {
+        type: 'underline',
+        content: [
+          'underlined'
+        ]
+      },
+      ' word.'
+    ]
+  }
+  t.same(adapter.parse(input), expected)
+  t.end()
+})
+
 test('handles bold-underline text', {todo: false}, t => {
   const input = require('./fixtures/bold-underline-text.json')
   const expected = {
