@@ -5,7 +5,7 @@ import Adapter from '../src/Adapter.js'
 
 const adapter = new Adapter()
 
-test('handles a plain string block', {todo: false}, t => {
+test('handles a plain string block', {todo: true}, t => {
   const input = require('./fixtures/plain-text.json')
   const expected = {
     type: 'text',
@@ -20,7 +20,7 @@ test('handles a plain string block', {todo: false}, t => {
 })
 
 
-test('handles italicized text', {todo: false}, t => {
+test('handles italicized text', {todo: true}, t => {
   const input = require('./fixtures/italicized-text.json')
   const expected = {
     type: 'text',
@@ -41,7 +41,7 @@ test('handles italicized text', {todo: false}, t => {
   t.end()
 })
 
-test('handles underline text', {todo: false}, t => {
+test('handles underline text', {todo: true}, t => {
   const input = require('./fixtures/underlined-text.json')
   const expected = {
     type: 'text',
@@ -61,7 +61,7 @@ test('handles underline text', {todo: false}, t => {
   t.end()
 })
 
-test('handles bold-underline text', {todo: false}, t => {
+test('handles bold-underline text', {todo: true}, t => {
   const input = require('./fixtures/bold-underline-text.json')
   const expected = {
     type: 'text',
@@ -93,7 +93,7 @@ test('handles bold-underline text', {todo: false}, t => {
   t.end()
 })
 
-test('does not care about span marks order', {todo: false}, t => {
+test('does not care about span marks order', {todo: true}, t => {
   const orderedInput = require('./fixtures/marks-ordered-text.json')
   const reorderedInput = require('./fixtures/marks-reordered-text.json')
   const expected = {
@@ -139,7 +139,7 @@ test('does not care about span marks order', {todo: false}, t => {
 })
 
 
-test('handles a messy text', {todo: false}, t => {
+test('handles a messy text', {todo: true}, t => {
   const input = require('./fixtures/messy-text.json')
   const expected = {
     type: 'text',
@@ -180,10 +180,11 @@ test('handles a messy text', {todo: false}, t => {
   t.end()
 })
 
-test('handles simple link text', {todo: false}, t => {
+test('handles simple link text', {todo: true}, t => {
   const input = require('./fixtures/link-simple-text.json')
   const expected = {
     type: 'text',
+    style: 'plain',
     content: [
       'String before link ',
       {
@@ -202,7 +203,7 @@ test('handles simple link text', {todo: false}, t => {
   t.end()
 })
 
-test('handles messy link text', {todo: false}, t => {
+test('handles messy link text', {todo: true}, t => {
   const input = require('./fixtures/link-messy-text.json')
   const expected = {
     type: 'text',
@@ -236,7 +237,45 @@ test('handles messy link text', {todo: false}, t => {
   t.end()
 })
 
-test('handles a plain h2 block', {todo: false}, t => {
+test('handles a numbered list', {todo: false}, t => {
+  const input = require('./fixtures/list-numbered-blocks.json')
+  const expected = [{
+    type: 'list',
+    style: 'number',
+    items: [
+      {
+        type: 'text',
+        content: [
+          'One'
+        ]
+      },
+      {
+        type: 'text',
+        content: [
+          'Two has ',
+          {
+            type: 'strong',
+            content: [
+              'bold'
+            ]
+          },
+          ' word'
+        ]
+      },
+      {
+        type: 'text',
+        content: [
+          'Three'
+        ]
+      }
+    ]
+  }]
+  t.same(adapter.parse(input), expected)
+  t.end()
+})
+
+
+test('handles a plain h2 block', {todo: true}, t => {
   const input = require('./fixtures/h2-text.json')
   const expected = {
     type: 'text',
