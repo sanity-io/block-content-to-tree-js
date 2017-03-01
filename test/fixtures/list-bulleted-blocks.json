@@ -6,7 +6,7 @@
     "spans": [
       {
         "_type": "span",
-        "text": "i don't know",
+        "text": "I am the most",
         "marks": []
       }
     ]
@@ -18,19 +18,19 @@
     "spans": [
       {
         "_type": "span",
-        "text": "this is ",
+        "text": "expressive",
         "marks": []
       },
       {
         "_type": "span",
-        "text": "bold",
+        "text": "programmer",
         "marks": [
           "strong"
         ]
       },
       {
         "_type": "span",
-        "text": " word",
+        "text": "you know.",
         "marks": []
       }
     ]

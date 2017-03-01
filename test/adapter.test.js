@@ -275,6 +275,43 @@ test('handles a numbered list', {todo: false}, t => {
 })
 
 
+test('handles a bulleted list', {todo: false}, t => {
+  const input = require('./fixtures/list-bulleted-blocks.json')
+  const expected = [{
+    type: 'list',
+    style: 'bullet',
+    items: [
+      {
+        type: 'text',
+        content: [
+          'I am the most'
+        ]
+      },
+      {
+        type: 'text',
+        content: [
+          'expressive',
+          {
+            type: 'strong',
+            content: [
+              'programmer'
+            ]
+          },
+          'you know.'
+        ]
+      },
+      {
+        type: 'text',
+        content: [
+          'SAD!'
+        ]
+      }
+    ]
+  }]
+  t.same(adapter.parse(input), expected)
+  t.end()
+})
+
 test('handles a plain h2 block', {todo: true}, t => {
   const input = require('./fixtures/h2-text.json')
   const expected = {

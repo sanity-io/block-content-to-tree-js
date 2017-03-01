@@ -24,7 +24,7 @@ const block = singleBlock => {
 const list = listBlocks => {
   return {
     type: 'list',
-    style: 'number',
+    style: listBlocks[0].listItem,
     items: listBlocks.map(listBlock => {
       return {
         type: 'text',
