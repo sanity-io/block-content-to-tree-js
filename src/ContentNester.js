@@ -50,7 +50,6 @@ class ContentNester {
       console.log('---> remove mark:', marksToRemove.pop())
       this.compile(currentSpan, marksToRemove, marksToAdd, result)
       return result
-
     } else if (marksToAdd.length) {
       const mark = marksToAdd.pop()
       console.log('---> add mark:', mark)
