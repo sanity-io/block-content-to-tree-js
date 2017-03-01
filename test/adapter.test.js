@@ -93,6 +93,52 @@ test('handles bold-underline text', {todo: false}, t => {
   t.end()
 })
 
+test('does not care about span marks order', {todo: false}, t => {
+  const orderedInput = require('./fixtures/marks-ordered-text.json')
+  const reorderedInput = require('./fixtures/marks-reordered-text.json')
+  const expected = {
+    type: 'text',
+    style: 'plain',
+    content: [
+      'Plain',
+      {
+        type: 'strong',
+        content: [
+          'strong',
+          {
+            type: 'underline',
+            content: [
+              'strong and underline',
+              {
+                type: 'em',
+                content: [
+                  'strong and underline and emphasis'
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        type: 'underline',
+        content: [
+          {
+            type: 'em',
+            content: [
+              'underline and emphasis'
+            ]
+          }
+        ]
+      },
+      'plain again'
+    ]
+  }
+  t.same(adapter.parse(orderedInput), expected)
+  t.same(adapter.parse(reorderedInput), expected)
+  t.end()
+})
+
+
 test('handles a messy text', {todo: false}, t => {
   const input = require('./fixtures/messy-text.json')
   const expected = {
