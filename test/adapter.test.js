@@ -312,6 +312,62 @@ test('handles a bulleted list', {todo: false}, t => {
   t.end()
 })
 
+test('handles multiple lists', {todo: false}, t => {
+  const input = require('./fixtures/list-both-types-blocks.json')
+  const expected = [
+    {
+      type: 'list',
+      style: 'bullet',
+      items: [
+        {
+          type: 'text',
+          content: [
+            'A single bulleted item'
+          ]
+        }
+      ]
+    },
+    {
+      type: 'list',
+      style: 'number',
+      items: [
+        {
+          type: 'text',
+          content: [
+            'First numbered'
+          ]
+        },
+        {
+          type: 'text',
+          content: [
+            'Second numbered'
+          ]
+        }
+      ]
+    },
+    {
+      type: 'list',
+      style: 'bullet',
+      items: [
+        {
+          type: 'text',
+          content: [
+            'A bullet with',
+            {
+              type: 'strong',
+              content: [
+                'something strong'
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  t.same(adapter.parse(input), expected)
+  t.end()
+})
+
 test('handles a plain h2 block', {todo: true}, t => {
   const input = require('./fixtures/h2-text.json')
   const expected = {
