@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-import builtInHandlers from './type-handlers.js'
+import builtInHandlers from './type-handlers'
+import {isList} from './type-checkers'
+
 
 class Adapter {
 
@@ -7,15 +9,41 @@ class Adapter {
     this.typeHandlers = Object.assign({}, builtInHandlers, options.customAdaptors)
   }
 
+
+  // Accepts an array of blocks, or a single block.
+  // Returns same object type as input
   parse(data) {
     if (Array.isArray(data)) {
       console.log(`${data.length} blocks to handle`)
-      return data.map(block => {
-        return this.parseSingleBlock(block)
-      }).filter(Boolean)
+      const parsedData = []
+      let listBlocks = []
+
+      data.forEach((block, index, blocks) => {
+        if (isList(block)) {
+          // Each item in a list comes in its own block
+          // We bundle those togther in a single list object
+          listBlocks.push(block)
+          const nextBlock = blocks[index + 1] || {}
+          // If next block is not a similar listItem, this list is complete
+          if (nextBlock.listItem !== block.listItem) {
+            const completeList = Array.from(listBlocks)
+            listBlocks = []
+            parsedData.push(this.parseListBlocks(completeList))
+          }
+        } else {
+          parsedData.push(this.parseSingleBlock(block))
+        }
+      })
+      return parsedData
     }
+
     return this.parseSingleBlock(data)
   }
+
+  parseListBlocks(blocks) {
+    return this.typeHandlers.list(blocks)
+  }
+
 
   parseSingleBlock(block) {
     const type = block._type
