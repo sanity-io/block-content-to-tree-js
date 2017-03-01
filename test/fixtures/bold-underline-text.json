@@ -4,12 +4,12 @@
   "spans": [
     {
       "_type": "span",
-      "text": "Plain ",
+      "text": "Plain",
       "marks": []
     },
     {
       "_type": "span",
-      "text": "only-bold ",
+      "text": "only-bold",
       "marks": [
         "strong"
       ]
@@ -24,14 +24,14 @@
     },
     {
       "_type": "span",
-      "text": " only-underline",
+      "text": "only-underline",
       "marks": [
         "underline"
       ]
     },
     {
       "_type": "span",
-      "text": " plain",
+      "text": "plain",
       "marks": []
     }
   ]
