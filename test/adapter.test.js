@@ -120,10 +120,10 @@ test('does not care about span marks order', {todo: false}, t => {
         ]
       },
       {
-        type: 'underline',
+        type: 'em',
         content: [
           {
-            type: 'em',
+            type: 'underline',
             content: [
               'underline and emphasis'
             ]
@@ -216,14 +216,20 @@ test('handles messy link text', {todo: false}, t => {
         content: [
           'internet ',
           {
-            type: 'strong',
+            type: 'em',
             content: [
-              'and'
+              {
+                type: 'strong',
+                content: [
+                  'is very strong and emphasis'
+                ]
+              },
+              ' and such'
             ]
           },
-          ' such'
         ]
-      }
+      },
+      '.'
     ]
   }
   t.same(adapter.parse(input), expected)
