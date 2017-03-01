@@ -5,7 +5,7 @@ import Adapter from '../src/Adapter.js'
 
 const adapter = new Adapter()
 
-test('handles a plain string block', {todo: true}, t => {
+test('handles a plain string block', {todo: false}, t => {
   const input = require('./fixtures/plain-text.json')
   const expected = {
     type: 'text',
@@ -37,26 +37,25 @@ test('handles italicized text', {todo: false}, t => {
     ]
   }
   const got = adapter.parse(input)
-  console.log("GOT\n", JSON.stringify(got, null, 2))
   t.same(got, expected)
   t.end()
 })
 
-test('handles bold-underline text', {todo: true}, t => {
+test('handles bold-underline text', {todo: false}, t => {
   const input = require('./fixtures/bold-underline-text.json')
   const expected = {
     type: 'text',
     style: 'plain',
     content: [
-      'Plain ',
+      'Plain',
       {
         type: 'strong',
         content: [
-          'only-bold ',
+          'only-bold',
           {
             type: 'underline',
             content: [
-              'bold-and-underline '
+              'bold-and-underline'
             ]
           }
         ]
@@ -67,20 +66,20 @@ test('handles bold-underline text', {todo: true}, t => {
           'only-underline'
         ]
       },
-      ' plain'
+      'plain'
     ]
   }
   t.same(adapter.parse(input), expected)
   t.end()
 })
 
-test('handles a plain h2 block', {todo: true}, t => {
+test('handles a plain h2 block', {todo: false}, t => {
   const input = require('./fixtures/h2-text.json')
   const expected = {
     type: 'text',
     style: 'h2',
     content: [
-      'Such h2 header, much amaze'
+      'Normal string of text.'
     ]
   }
   t.same(adapter.parse(input), expected)
