@@ -4,78 +4,55 @@ class ContentNester {
 
   constructor(spans) {
     this.spans = spans
-    this.spanIndex = 0
   }
 
-  nextSpan() {
-    console.log('-------------------------------')
-    console.log('.')
-    console.log('.')
-    console.log(`-------------- ${this.spanIndex} --------------`)
-    const span = this.spans.length > this.spanIndex ? this.spans[this.spanIndex] : null
-    this.spanIndex += 1
-    return span
-  }
+  run() {
 
-  comingMarks(currentSpan, nextSpan) {
-    if (!nextSpan) {
-      return []
-    }
-    return nextSpan.marks.filter(mark => {
-      return !currentSpan.marks.includes(mark)
-    })
-  }
+    const model = {content: []}
+    let nodeStack = [model]
+    let markStack = []
 
-  goingMarks(currentSpan, nextSpan = {}) {
-    if (!nextSpan) {
-      return currentSpan.marks
-    }
-    return currentSpan.marks.filter(mark => {
-      return !nextSpan.marks.includes(mark)
-    })
-  }
+    this.spans.forEach(span => {
 
-  compile(currentSpan, marksToRemove, marksToAdd, result = []) {
-    console.log('compile')
-    if (!currentSpan) {
-      return result
-    }
+      const marksNeeded = span.marks
 
-    console.log('currentSpan:', currentSpan)
-    console.log('result:', result)
-    console.log('marksToRemove:', marksToRemove)
-    console.log('marksToAd:', marksToAdd)
+      // Compare what we have with what we want
+      let popCount = 0
+      for (let i = 0; i < markStack.length; i++) {
+        if (i > marksNeeded.length || marksNeeded[i] == markStack[i]) {
+          marksNeeded.shift()
+        } else {
+          popCount += 1
+        }
+      }
 
-    if (marksToRemove.length) {
-      console.log('---> remove mark:', marksToRemove.pop())
-      return this.compile(currentSpan, marksToRemove, marksToAdd, result)
+      // Chop chop
+      nodeStack = nodeStack.slice(0, nodeStack.length - popCount)
+      markStack = markStack.slice(0, markStack.length - popCount)
 
-    } else if (marksToAdd.length) {
-      const mark = marksToAdd.pop()
-      console.log('---> add mark:', mark)
-      result.push({
-        type: mark,
-        content: this.compile(currentSpan, marksToRemove, marksToAdd, [])
+      // Add needed nodes
+      let currentNode = nodeStack.slice(-1)[0]
+      marksNeeded.forEach(mark => {
+        const node = {
+          content: [],
+          type: mark
+        }
+        currentNode.content.push(node)
+        nodeStack.push(node)
+        markStack.push(mark)
+        currentNode = node
       })
-      return result
-    }
 
-    console.log('---> no diff, just push:', currentSpan.text)
-    result.push(currentSpan.text)
-    const nextSpan = this.nextSpan()
-    const comingMarks = this.comingMarks(currentSpan, nextSpan)
-    const goingMarks = this.goingMarks(currentSpan, nextSpan)
+      currentNode.content.push(span.text)
+    })
 
-    return this.compile(nextSpan, goingMarks, comingMarks, result)
+    return model.content
   }
-
 }
 
 const getContent = spans => {
   const cn = new ContentNester(spans)
-  const firstSpan = cn.nextSpan()
-  const got = cn.compile(firstSpan, [], firstSpan.marks, [])
-  console.log('=============================\n', JSON.stringify(got, null, 2))
+  const got = cn.run()
   return got
 }
 
