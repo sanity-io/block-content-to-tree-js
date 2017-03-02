@@ -368,7 +368,7 @@ test('handles multiple lists', {todo: false}, t => {
   t.end()
 })
 
-test('handles a plain h2 block', {todo: true}, t => {
+test('handles a plain h2 block', {todo: false}, t => {
   const input = require('./fixtures/h2-text.json')
   const expected = {
     type: 'text',
