@@ -5,16 +5,18 @@ class ContentNester {
   constructor(spans) {
     this.spans = spans
     this.spanIndex = 0
+    this.currentSpan = spans[0]
+    this.nextSpan = spans[1]
   }
 
-  nextSpan() {
+  advanceToNextSpan() {
+    this.spanIndex += 1
     console.log('-------------------------------')
     console.log('.')
     console.log('.')
     console.log(`-------------- ${this.spanIndex} --------------`)
-    const span = this.spans.length > this.spanIndex ? this.spans[this.spanIndex] : null
-    this.spanIndex += 1
-    return span
+    this.currentSpan = this.spans[this.spanIndex]
+    this.nextSpan = this.spans[this.spanIndex + 1]
   }
 
   comingMarks(currentSpan, nextSpan) {
@@ -35,46 +37,55 @@ class ContentNester {
     })
   }
 
-  compile(currentSpan, marksToRemove, marksToAdd, result = []) {
+  compile(marksToRemove, marksToAdd, result = []) {
     console.log('compile')
-    if (!currentSpan) {
+    const span = this.currentSpan
+    if (!span) {
       return result
     }
 
-    console.log('currentSpan:', currentSpan)
+    console.log('currentSpan:', span)
     console.log('result:', result)
     console.log('marksToRemove:', marksToRemove)
     console.log('marksToAd:', marksToAdd)
 
     if (marksToRemove.length) {
-      console.log('---> remove mark:', marksToRemove.pop())
-      this.compile(currentSpan, marksToRemove, marksToAdd, result)
-      return result
-    } else if (marksToAdd.length) {
-      const mark = marksToAdd.pop()
-      console.log('---> add mark:', mark)
-      result.push({
-        type: mark,
-        content: this.compile(currentSpan, marksToRemove, marksToAdd, [])
-      })
-      return result
+      console.log('---> remove mark: ', marksToRemove.pop())
+      return {result: result, marksToRemove: marksToRemove}
     }
 
-    console.log('---> no diff, just push:', currentSpan.text)
-    result.push(currentSpan.text)
-    const nextSpan = this.nextSpan()
-    const comingMarks = this.comingMarks(currentSpan, nextSpan)
-    const goingMarks = this.goingMarks(currentSpan, nextSpan)
+    if (marksToAdd.length) {
+      const mark = marksToAdd.pop()
+      console.log('---> add mark:', mark)
+      const nestedContent = this.compile(marksToRemove, marksToAdd, [])
+      console.log('---> deep nest resulted in:', nestedContent)
+      result.push({
+        type: mark,
+        content: nestedContent.result
+      })
+      if (nestedContent.marksToRemove) {
+        console.log('---> remove mark: ', nestedContent.marksToRemove.pop())
+        return {result: result, marksToRemove: nestedContent.marksToRemove}
+      }
+    }
 
-    return this.compile(nextSpan, goingMarks, comingMarks, result)
+    console.log('---> no diff, just push:', span.text)
+    result.push(span.text)
+
+    if (this.nextSpan) {
+      const comingMarks = this.comingMarks(span, this.nextSpan)
+      const goingMarks = this.goingMarks(span, this.nextSpan)
+      this.advanceToNextSpan()
+      return this.compile(goingMarks, comingMarks, result)
+    }
+    return result
   }
 
 }
 
 const getContent = spans => {
   const cn = new ContentNester(spans)
-  const firstSpan = cn.nextSpan()
-  const got = cn.compile(firstSpan, [], firstSpan.marks, [])
+  const got = cn.compile([], cn.currentSpan.marks, [])
   console.log('=============================\n', JSON.stringify(got, null, 2))
   return got
 }
