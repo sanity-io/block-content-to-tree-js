@@ -10,25 +10,36 @@ class ContentNester {
 
     const model = {content: []}
     let nodeStack = [model]
-    let markStack = []
 
     this.spans.forEach(span => {
 
-      const marksNeeded = span.marks
+      const marksNeeded = span.marks.sort()
 
-      // Compare what we have with what we want
-      let popCount = 0
-      for (let i = 0; i < markStack.length; i++) {
-        if (i > marksNeeded.length || marksNeeded[i] == markStack[i]) {
-          marksNeeded.shift()
-        } else {
-          popCount += 1
+      // console.info('------------------')
+      // console.info('before', nodeStack.map(node => node.type), marksNeeded)
+
+      let pos = 1
+
+      // Start at position one. Root is always plain and should never be removed. (?)
+      if (nodeStack.length > 1) {
+        for (pos; pos < nodeStack.length; pos++) {
+          const type = nodeStack[pos].type
+          if (marksNeeded.includes(type)) {
+            // console.info('- ', type)
+            const index = marksNeeded.indexOf(type)
+            marksNeeded.splice(index, 1)
+          } else {
+            break
+          }
         }
       }
 
-      // Chop chop
-      nodeStack = nodeStack.slice(0, nodeStack.length - popCount)
-      markStack = markStack.slice(0, markStack.length - popCount)
+      // console.info('after filter', marksNeeded, pos)
+
+      // Keep from beginning to first miss
+      nodeStack = nodeStack.slice(0, pos)
+
+      // console.info('nodes after chop', nodeStack.map(node => node.type))
 
       // Add needed nodes
       let currentNode = nodeStack.slice(-1)[0]
@@ -39,7 +50,6 @@ class ContentNester {
         }
         currentNode.content.push(node)
         nodeStack.push(node)
-        markStack.push(mark)
         currentNode = node
       })
 
