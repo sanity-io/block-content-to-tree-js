@@ -1,5 +1,5 @@
 {
-  "name": "block-content-adaptor",
+  "name": "block-content-adapter",
   "description": "Customizable parser for block editor output",
   "version": "0.0.1",
   "main": "index.js",
@@ -28,10 +28,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sanity-io/block-content-adaptor.git"
+    "url": "git+https://github.com/sanity-io/block-content-adapter.git"
   },
   "bugs": {
     "url": "https://github.com/sanity-io/block-content-adaptor/issues"
   },
-  "homepage": "https://github.com/sanity-io/block-content-adaptor#readme"
+  "homepage": "https://github.com/sanity-io/block-content-adapter#readme"
 }
