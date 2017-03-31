@@ -4,7 +4,6 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "woppa": "babel-node ./bin/data-munging/from-ojs/index.js",
     "test": "tap --node-arg=--require --node-arg=babel-register test/*.test.js",
     "lint": "eslint ."
   },
