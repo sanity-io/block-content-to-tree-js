@@ -5,7 +5,7 @@ import {isList} from './type-checkers'
 class Adapter {
 
   constructor(options = {}) {
-    this.typeHandlers = Object.assign({}, builtInHandlers, options.customAdaptors)
+    this.typeHandlers = Object.assign({}, builtInHandlers, options.customAdapters)
   }
 
   // Accepts an array of blocks, or a single block.
