@@ -47,8 +47,10 @@ class Adapter {
     const typeHandler = this.typeHandlers[type]
 
     if (!typeHandler) {
-      console.error(`No handler for type ${type}`) // eslint-disable-line no-console
-      return null
+      return {
+        type: 'object',
+        attributes: block
+      }
     }
     return typeHandler(block)
   }

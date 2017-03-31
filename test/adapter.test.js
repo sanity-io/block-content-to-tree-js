@@ -406,4 +406,19 @@ test('handles a plain h2 block', {todo: false}, t => {
   t.end()
 })
 
+
+test('handles a non-block type', {todo: false}, t => {
+  const input = require('./fixtures/non-block.json')
+  const expected = {
+    type: 'object',
+    attributes: {
+      _type: 'author',
+      name: 'Test Person'
+    }
+  }
+  const got = adapter.parse(input)
+  t.same(got, expected)
+  t.end()
+})
+
 /* eslint-enable id-length */
