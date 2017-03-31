@@ -26,7 +26,7 @@ class ContentNester {
       if (nodeStack.length > 1) {
         for (pos; pos < nodeStack.length; pos++) {
           const type = nodeStack[pos].type
-          if (marksNeeded.includes(type)) {
+          if (marksNeeded.includes(type)) { // eslint-disable-line max-depth
             // console.info('- ', type)
             const index = marksNeeded.indexOf(type)
             marksNeeded.splice(index, 1)
