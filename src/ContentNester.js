@@ -17,9 +17,6 @@ class ContentNester {
 
       const marksNeeded = span.marks.sort()
 
-      // console.info('------------------')
-      // console.info('before', nodeStack.map(node => node.type), marksNeeded)
-
       let pos = 1
 
       // Start at position one. Root is always plain and should never be removed. (?)
@@ -36,12 +33,8 @@ class ContentNester {
         }
       }
 
-      // console.info('after filter', marksNeeded, pos)
-
       // Keep from beginning to first miss
       nodeStack = nodeStack.slice(0, pos)
-
-      // console.info('nodes after chop', nodeStack.map(node => node.type))
 
       // Add needed nodes
       let currentNode = nodeStack.slice(-1)[0]
