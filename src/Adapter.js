@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import builtInHandlers from './type-handlers'
 import {isList} from './type-checkers'
 
@@ -9,12 +8,10 @@ class Adapter {
     this.typeHandlers = Object.assign({}, builtInHandlers, options.customAdaptors)
   }
 
-
   // Accepts an array of blocks, or a single block.
   // Returns same object type as input
   parse(data) {
     if (Array.isArray(data)) {
-      console.log(`${data.length} blocks to handle`)
       const parsedData = []
       let listBlocks = []
 
@@ -50,15 +47,12 @@ class Adapter {
     const typeHandler = this.typeHandlers[type]
 
     if (!typeHandler) {
-      console.error(`No handler for type ${type}`)
+      console.error(`No handler for type ${type}`) // eslint-disable-line no-console
       return null
     }
-    console.log(`Handling type '${type}'`)
     return typeHandler(block)
   }
 
 }
 
 export default Adapter
-
-/* eslint-enable no-console */
