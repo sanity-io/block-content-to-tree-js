@@ -12,6 +12,7 @@
   "author": "Sanity <hello@sanity.io>",
   "license": "MIT",
   "dependencies": {
+    "lodash.omit": "^4.5.0"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",

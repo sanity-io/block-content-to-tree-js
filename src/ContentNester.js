@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+import _omit from 'lodash.omit'
 
 class ContentNester {
 
@@ -12,6 +12,8 @@ class ContentNester {
     let nodeStack = [model]
 
     this.spans.forEach(span => {
+
+      const dataAttributes = _omit(span, ['text', 'marks', '_type'])
 
       const marksNeeded = span.marks.sort()
 
@@ -53,7 +55,17 @@ class ContentNester {
         currentNode = node
       })
 
-      currentNode.content.push(span.text)
+      if (Object.keys(dataAttributes).length) {
+        currentNode.content.push({
+          type: 'object',
+          attributes: dataAttributes,
+          content: [
+            span.text
+          ]
+        })
+      } else {
+        currentNode.content.push(span.text)
+      }
     })
 
     return model.content
@@ -67,5 +79,3 @@ const getContent = spans => {
 }
 
 export default getContent
-
-/* eslint-enable no-console */

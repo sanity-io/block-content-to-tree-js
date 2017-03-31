@@ -188,9 +188,11 @@ test('handles simple link text', {todo: false}, t => {
     content: [
       'String before link ',
       {
-        type: 'link',
+        type: 'object',
         attributes: {
-          href: 'http://icanhas.cheezburger.com/'
+          link: {
+            href: 'http://icanhas.cheezburger.com/'
+          }
         },
         content: [
           'actual link text'
@@ -207,28 +209,51 @@ test('handles messy link text', {todo: false}, t => {
   const input = require('./fixtures/link-messy-text.json')
   const expected = {
     type: 'text',
+    style: 'plain',
     content: [
       'String with link to ',
       {
-        type: 'link',
+        type: 'object',
         attributes: {
-          href: 'http://icanhas.cheezburger.com/'
+          link: {
+            href: 'http://icanhas.cheezburger.com/'
+          }
         },
         content: [
-          'internet ',
+          'internet '
+        ]
+      },
+      {
+        content: [
           {
-            type: 'em',
             content: [
               {
-                type: 'strong',
+                type: 'object',
+                attributes: {
+                  link: {
+                    href: 'http://icanhas.cheezburger.com/'
+                  }
+                },
                 content: [
                   'is very strong and emphasis'
                 ]
-              },
-              ' and such'
-            ]
+              }
+            ],
+            type: 'strong'
           },
-        ]
+          {
+            type: 'object',
+            attributes: {
+              link: {
+                href: 'http://icanhas.cheezburger.com/'
+              }
+            },
+            content: [
+              ' and just emphasis'
+            ]
+          }
+        ],
+        type: 'em'
       },
       '.'
     ]
