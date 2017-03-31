@@ -5,11 +5,11 @@ import Adapter from '../src/Adapter.js'
 
 const adapter = new Adapter()
 
-test('handles a plain string block', {todo: false}, t => {
-  const input = require('./fixtures/plain-text.json')
+test('handles a normal string block', {todo: false}, t => {
+  const input = require('./fixtures/normal-text.json')
   const expected = {
     type: 'text',
-    style: 'plain',
+    style: 'normal',
     content: [
       'Normal string of text.',
     ]
@@ -24,7 +24,7 @@ test('handles italicized text', {todo: false}, t => {
   const input = require('./fixtures/italicized-text.json')
   const expected = {
     type: 'text',
-    style: 'plain',
+    style: 'normal',
     content: [
       'String with an ',
       {
@@ -45,7 +45,7 @@ test('handles underline text', {todo: false}, t => {
   const input = require('./fixtures/underlined-text.json')
   const expected = {
     type: 'text',
-    style: 'plain',
+    style: 'normal',
     content: [
       'String with an ',
       {
@@ -65,9 +65,9 @@ test('handles bold-underline text', {todo: false}, t => {
   const input = require('./fixtures/bold-underline-text.json')
   const expected = {
     type: 'text',
-    style: 'plain',
+    style: 'normal',
     content: [
-      'Plain',
+      'Normal',
       {
         type: 'strong',
         content: [
@@ -86,7 +86,7 @@ test('handles bold-underline text', {todo: false}, t => {
           'only-underline'
         ]
       },
-      'plain'
+      'normal'
     ]
   }
   t.same(adapter.parse(input), expected)
@@ -98,9 +98,9 @@ test('does not care about span marks order', {todo: false}, t => {
   const reorderedInput = require('./fixtures/marks-reordered-text.json')
   const expected = {
     type: 'text',
-    style: 'plain',
+    style: 'normal',
     content: [
-      'Plain',
+      'Normal',
       {
         type: 'strong',
         content: [
@@ -130,7 +130,7 @@ test('does not care about span marks order', {todo: false}, t => {
           }
         ]
       },
-      'plain again'
+      'normal again'
     ]
   }
   t.same(adapter.parse(orderedInput), expected)
@@ -143,7 +143,7 @@ test('handles a messy text', {todo: false}, t => {
   const input = require('./fixtures/messy-text.json')
   const expected = {
     type: 'text',
-    style: 'plain',
+    style: 'normal',
     content: [
       'Hacking ',
       {
@@ -184,7 +184,7 @@ test('handles simple link text', {todo: false}, t => {
   const input = require('./fixtures/link-simple-text.json')
   const expected = {
     type: 'text',
-    style: 'plain',
+    style: 'normal',
     content: [
       'String before link ',
       {
@@ -209,7 +209,7 @@ test('handles messy link text', {todo: false}, t => {
   const input = require('./fixtures/link-messy-text.json')
   const expected = {
     type: 'text',
-    style: 'plain',
+    style: 'normal',
     content: [
       'String with link to ',
       {
