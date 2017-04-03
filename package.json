@@ -1,5 +1,5 @@
 {
-  "name": "block-content-adapter",
+  "name": "@sanity/block-content-adapter",
   "description": "Customizable parser for block editor output",
   "version": "0.0.1",
   "main": "lib/index.js",
