@@ -1,6 +1,6 @@
 {
   "name": "@sanity/block-content-adapter",
-  "description": "Customizable parser for block editor output",
+  "description": "Adapts the flat Sanity block content structure into a generic tree structure for easier transformation into other formats.",
   "version": "0.0.1",
   "main": "lib/index.js",
   "umd": "umd/index.min.js",
