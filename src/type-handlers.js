@@ -1,6 +1,4 @@
 import getContent from './ContentNester'
-import {getInternalBlockType} from './type-checkers'
-
 
 const block = singleBlock => {
   return {
@@ -22,7 +20,6 @@ const list = listBlocks => {
     })
   }
 }
-
 
 export default {
   block,

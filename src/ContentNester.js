@@ -1,5 +1,3 @@
-import _omit from 'lodash.omit'
-
 class ContentNester {
 
   constructor(spans) {
@@ -13,7 +11,10 @@ class ContentNester {
 
     this.spans.forEach(span => {
 
-      const dataAttributes = _omit(span, ['text', 'marks', '_type'])
+      const dataAttributes = Object.assign({}, span)
+      delete dataAttributes.text
+      delete dataAttributes.marks
+      delete dataAttributes._type
 
       const marksNeeded = span.marks.sort()
 
