@@ -46,10 +46,13 @@ class Adapter {
     const type = block._type
     const typeHandler = this.typeHandlers[type]
 
+    // Not a block type, wrap it into .attributes and decouple the _type
     if (!typeHandler) {
+      const attributes = Object.assign({}, block)
+      delete attributes._type
       return {
-        type: 'object',
-        attributes: block
+        type: type,
+        attributes: attributes
       }
     }
     return typeHandler(block)

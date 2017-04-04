@@ -42,7 +42,7 @@ class ContentNester {
         const node = {
           content: [],
           mark: mark,
-          type: 'mark'
+          type: 'span'
         }
         currentNode.content.push(node)
         nodeStack.push(node)
@@ -51,7 +51,7 @@ class ContentNester {
 
       if (Object.keys(dataAttributes).length) {
         currentNode.content.push({
-          type: 'object',
+          type: 'span',
           attributes: dataAttributes,
           content: [
             span.text

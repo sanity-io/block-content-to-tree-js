@@ -2,7 +2,7 @@ import getContent from './ContentNester'
 
 const block = singleBlock => {
   return {
-    type: 'text',
+    type: 'block',
     style: singleBlock.style,
     content: getContent(singleBlock.spans)
   }
@@ -11,10 +11,11 @@ const block = singleBlock => {
 const list = listBlocks => {
   return {
     type: 'list',
-    style: listBlocks[0].listItem,
+    itemStyle: listBlocks[0].listItem,
     items: listBlocks.map(listBlock => {
       return {
-        type: 'text',
+        type: 'block',
+        style: listBlock.style,
         content: getContent(listBlock.spans)
       }
     })

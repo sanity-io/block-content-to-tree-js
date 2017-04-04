@@ -38,7 +38,7 @@
   {
     "_type": "block",
     "listItem": "number",
-    "style": "normal",
+    "style": "h2",
     "spans": [
       {
         "_type": "span",

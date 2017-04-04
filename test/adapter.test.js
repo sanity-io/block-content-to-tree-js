@@ -8,7 +8,7 @@ const adapter = new Adapter()
 test('handles a normal string block', {todo: false}, t => {
   const input = require('./fixtures/normal-text.json')
   const expected = {
-    type: 'text',
+    type: 'block',
     style: 'normal',
     content: [
       'Normal string of text.',
@@ -23,12 +23,12 @@ test('handles a normal string block', {todo: false}, t => {
 test('handles italicized text', {todo: false}, t => {
   const input = require('./fixtures/italicized-text.json')
   const expected = {
-    type: 'text',
+    type: 'block',
     style: 'normal',
     content: [
       'String with an ',
       {
-        type: 'mark',
+        type: 'span',
         mark: 'em',
         content: [
           'italicized'
@@ -45,12 +45,12 @@ test('handles italicized text', {todo: false}, t => {
 test('handles underline text', {todo: false}, t => {
   const input = require('./fixtures/underlined-text.json')
   const expected = {
-    type: 'text',
+    type: 'block',
     style: 'normal',
     content: [
       'String with an ',
       {
-        type: 'mark',
+        type: 'span',
         mark: 'underline',
         content: [
           'underlined'
@@ -66,17 +66,17 @@ test('handles underline text', {todo: false}, t => {
 test('handles bold-underline text', {todo: false}, t => {
   const input = require('./fixtures/bold-underline-text.json')
   const expected = {
-    type: 'text',
+    type: 'block',
     style: 'normal',
     content: [
       'Normal',
       {
-        type: 'mark',
+        type: 'span',
         mark: 'strong',
         content: [
           'only-bold',
           {
-            type: 'mark',
+            type: 'span',
             mark: 'underline',
             content: [
               'bold-and-underline'
@@ -85,7 +85,7 @@ test('handles bold-underline text', {todo: false}, t => {
         ]
       },
       {
-        type: 'mark',
+        type: 'span',
         mark: 'underline',
         content: [
           'only-underline'
@@ -102,22 +102,22 @@ test('does not care about span marks order', {todo: false}, t => {
   const orderedInput = require('./fixtures/marks-ordered-text.json')
   const reorderedInput = require('./fixtures/marks-reordered-text.json')
   const expected = {
-    type: 'text',
+    type: 'block',
     style: 'normal',
     content: [
       'Normal',
       {
-        type: 'mark',
+        type: 'span',
         mark: 'strong',
         content: [
           'strong',
           {
-            type: 'mark',
+            type: 'span',
             mark: 'underline',
             content: [
               'strong and underline',
               {
-                type: 'mark',
+                type: 'span',
                 mark: 'em',
                 content: [
                   'strong and underline and emphasis'
@@ -128,11 +128,11 @@ test('does not care about span marks order', {todo: false}, t => {
         ]
       },
       {
-        type: 'mark',
+        type: 'span',
         mark: 'em',
         content: [
           {
-            type: 'mark',
+            type: 'span',
             mark: 'underline',
             content: [
               'underline and emphasis'
@@ -152,12 +152,12 @@ test('does not care about span marks order', {todo: false}, t => {
 test('handles a messy text', {todo: false}, t => {
   const input = require('./fixtures/messy-text.json')
   const expected = {
-    type: 'text',
+    type: 'block',
     style: 'normal',
     content: [
       'Hacking ',
       {
-        type: 'mark',
+        type: 'span',
         mark: 'code',
         content: [
           'teh codez'
@@ -165,12 +165,12 @@ test('handles a messy text', {todo: false}, t => {
       },
       ' is ',
       {
-        type: 'mark',
+        type: 'span',
         mark: 'strong',
         content: [
           'all ',
           {
-            type: 'mark',
+            type: 'span',
             mark: 'underline',
             content: [
               'fun'
@@ -178,7 +178,7 @@ test('handles a messy text', {todo: false}, t => {
           },
           ' and ',
           {
-            type: 'mark',
+            type: 'span',
             mark: 'em',
             content: [
               'games'
@@ -197,12 +197,12 @@ test('handles a messy text', {todo: false}, t => {
 test('handles simple link text', {todo: false}, t => {
   const input = require('./fixtures/link-simple-text.json')
   const expected = {
-    type: 'text',
+    type: 'block',
     style: 'normal',
     content: [
       'String before link ',
       {
-        type: 'object',
+        type: 'span',
         attributes: {
           link: {
             href: 'http://icanhas.cheezburger.com/'
@@ -222,12 +222,12 @@ test('handles simple link text', {todo: false}, t => {
 test('handles messy link text', {todo: false}, t => {
   const input = require('./fixtures/link-messy-text.json')
   const expected = {
-    type: 'text',
+    type: 'block',
     style: 'normal',
     content: [
       'String with link to ',
       {
-        type: 'object',
+        type: 'span',
         attributes: {
           link: {
             href: 'http://icanhas.cheezburger.com/'
@@ -242,7 +242,7 @@ test('handles messy link text', {todo: false}, t => {
           {
             content: [
               {
-                type: 'object',
+                type: 'span',
                 attributes: {
                   link: {
                     href: 'http://icanhas.cheezburger.com/'
@@ -253,11 +253,11 @@ test('handles messy link text', {todo: false}, t => {
                 ]
               }
             ],
-            type: 'mark',
+            type: 'span',
             mark: 'strong'
           },
           {
-            type: 'object',
+            type: 'span',
             attributes: {
               link: {
                 href: 'http://icanhas.cheezburger.com/'
@@ -268,7 +268,7 @@ test('handles messy link text', {todo: false}, t => {
             ]
           }
         ],
-        type: 'mark',
+        type: 'span',
         mark: 'em'
       },
       '.'
@@ -282,20 +282,22 @@ test('handles a numbered list', {todo: false}, t => {
   const input = require('./fixtures/list-numbered-blocks.json')
   const expected = [{
     type: 'list',
-    style: 'number',
+    itemStyle: 'number',
     items: [
       {
-        type: 'text',
+        type: 'block',
+        style: 'normal',
         content: [
           'One'
         ]
       },
       {
-        type: 'text',
+        type: 'block',
+        style: 'normal',
         content: [
           'Two has ',
           {
-            type: 'mark',
+            type: 'span',
             mark: 'strong',
             content: [
               'bold'
@@ -305,7 +307,8 @@ test('handles a numbered list', {todo: false}, t => {
         ]
       },
       {
-        type: 'text',
+        type: 'block',
+        style: 'h2',
         content: [
           'Three'
         ]
@@ -321,20 +324,22 @@ test('handles a bulleted list', {todo: false}, t => {
   const input = require('./fixtures/list-bulleted-blocks.json')
   const expected = [{
     type: 'list',
-    style: 'bullet',
+    itemStyle: 'bullet',
     items: [
       {
-        type: 'text',
+        type: 'block',
+        style: 'normal',
         content: [
           'I am the most'
         ]
       },
       {
-        type: 'text',
+        type: 'block',
+        style: 'normal',
         content: [
           'expressive',
           {
-            type: 'mark',
+            type: 'span',
             mark: 'strong',
             content: [
               'programmer'
@@ -344,7 +349,8 @@ test('handles a bulleted list', {todo: false}, t => {
         ]
       },
       {
-        type: 'text',
+        type: 'block',
+        style: 'normal',
         content: [
           'SAD!'
         ]
@@ -360,10 +366,11 @@ test('handles multiple lists', {todo: false}, t => {
   const expected = [
     {
       type: 'list',
-      style: 'bullet',
+      itemStyle: 'bullet',
       items: [
         {
-          type: 'text',
+          type: 'block',
+          style: 'normal',
           content: [
             'A single bulleted item'
           ]
@@ -372,16 +379,18 @@ test('handles multiple lists', {todo: false}, t => {
     },
     {
       type: 'list',
-      style: 'number',
+      itemStyle: 'number',
       items: [
         {
-          type: 'text',
+          type: 'block',
+          style: 'normal',
           content: [
             'First numbered'
           ]
         },
         {
-          type: 'text',
+          type: 'block',
+          style: 'normal',
           content: [
             'Second numbered'
           ]
@@ -390,14 +399,15 @@ test('handles multiple lists', {todo: false}, t => {
     },
     {
       type: 'list',
-      style: 'bullet',
+      itemStyle: 'bullet',
       items: [
         {
-          type: 'text',
+          type: 'block',
+          style: 'normal',
           content: [
             'A bullet with',
             {
-              type: 'mark',
+              type: 'span',
               mark: 'strong',
               content: [
                 'something strong'
@@ -415,7 +425,7 @@ test('handles multiple lists', {todo: false}, t => {
 test('handles a plain h2 block', {todo: false}, t => {
   const input = require('./fixtures/h2-text.json')
   const expected = {
-    type: 'text',
+    type: 'block',
     style: 'h2',
     content: [
       'Such h2 header, much amaze'
@@ -429,9 +439,8 @@ test('handles a plain h2 block', {todo: false}, t => {
 test('handles a non-block type', {todo: false}, t => {
   const input = require('./fixtures/non-block.json')
   const expected = {
-    type: 'object',
+    type: 'author',
     attributes: {
-      _type: 'author',
       name: 'Test Person'
     }
   }
