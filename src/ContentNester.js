@@ -22,10 +22,9 @@ class ContentNester {
       // Start at position one. Root is always plain and should never be removed. (?)
       if (nodeStack.length > 1) {
         for (pos; pos < nodeStack.length; pos++) {
-          const type = nodeStack[pos].type
-          if (marksNeeded.includes(type)) { // eslint-disable-line max-depth
-            // console.info('- ', type)
-            const index = marksNeeded.indexOf(type)
+          const mark = nodeStack[pos].mark
+          if (marksNeeded.includes(mark)) { // eslint-disable-line max-depth
+            const index = marksNeeded.indexOf(mark)
             marksNeeded.splice(index, 1)
           } else {
             break
@@ -41,7 +40,8 @@ class ContentNester {
       marksNeeded.forEach(mark => {
         const node = {
           content: [],
-          type: mark
+          mark: mark,
+          type: 'mark'
         }
         currentNode.content.push(node)
         nodeStack.push(node)

@@ -28,7 +28,8 @@ test('handles italicized text', {todo: false}, t => {
     content: [
       'String with an ',
       {
-        type: 'em',
+        type: 'mark',
+        mark: 'em',
         content: [
           'italicized'
         ]
@@ -49,7 +50,8 @@ test('handles underline text', {todo: false}, t => {
     content: [
       'String with an ',
       {
-        type: 'underline',
+        type: 'mark',
+        mark: 'underline',
         content: [
           'underlined'
         ]
@@ -69,11 +71,13 @@ test('handles bold-underline text', {todo: false}, t => {
     content: [
       'Normal',
       {
-        type: 'strong',
+        type: 'mark',
+        mark: 'strong',
         content: [
           'only-bold',
           {
-            type: 'underline',
+            type: 'mark',
+            mark: 'underline',
             content: [
               'bold-and-underline'
             ]
@@ -81,7 +85,8 @@ test('handles bold-underline text', {todo: false}, t => {
         ]
       },
       {
-        type: 'underline',
+        type: 'mark',
+        mark: 'underline',
         content: [
           'only-underline'
         ]
@@ -102,15 +107,18 @@ test('does not care about span marks order', {todo: false}, t => {
     content: [
       'Normal',
       {
-        type: 'strong',
+        type: 'mark',
+        mark: 'strong',
         content: [
           'strong',
           {
-            type: 'underline',
+            type: 'mark',
+            mark: 'underline',
             content: [
               'strong and underline',
               {
-                type: 'em',
+                type: 'mark',
+                mark: 'em',
                 content: [
                   'strong and underline and emphasis'
                 ]
@@ -120,10 +128,12 @@ test('does not care about span marks order', {todo: false}, t => {
         ]
       },
       {
-        type: 'em',
+        type: 'mark',
+        mark: 'em',
         content: [
           {
-            type: 'underline',
+            type: 'mark',
+            mark: 'underline',
             content: [
               'underline and emphasis'
             ]
@@ -147,25 +157,29 @@ test('handles a messy text', {todo: false}, t => {
     content: [
       'Hacking ',
       {
-        type: 'code',
+        type: 'mark',
+        mark: 'code',
         content: [
           'teh codez'
         ]
       },
       ' is ',
       {
-        type: 'strong',
+        type: 'mark',
+        mark: 'strong',
         content: [
           'all ',
           {
-            type: 'underline',
+            type: 'mark',
+            mark: 'underline',
             content: [
               'fun'
             ]
           },
           ' and ',
           {
-            type: 'em',
+            type: 'mark',
+            mark: 'em',
             content: [
               'games'
             ]
@@ -239,7 +253,8 @@ test('handles messy link text', {todo: false}, t => {
                 ]
               }
             ],
-            type: 'strong'
+            type: 'mark',
+            mark: 'strong'
           },
           {
             type: 'object',
@@ -253,7 +268,8 @@ test('handles messy link text', {todo: false}, t => {
             ]
           }
         ],
-        type: 'em'
+        type: 'mark',
+        mark: 'em'
       },
       '.'
     ]
@@ -279,7 +295,8 @@ test('handles a numbered list', {todo: false}, t => {
         content: [
           'Two has ',
           {
-            type: 'strong',
+            type: 'mark',
+            mark: 'strong',
             content: [
               'bold'
             ]
@@ -317,7 +334,8 @@ test('handles a bulleted list', {todo: false}, t => {
         content: [
           'expressive',
           {
-            type: 'strong',
+            type: 'mark',
+            mark: 'strong',
             content: [
               'programmer'
             ]
@@ -379,7 +397,8 @@ test('handles multiple lists', {todo: false}, t => {
           content: [
             'A bullet with',
             {
-              type: 'strong',
+              type: 'mark',
+              mark: 'strong',
               content: [
                 'something strong'
               ]
