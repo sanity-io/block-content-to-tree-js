@@ -4,8 +4,8 @@ import {isList} from './type-checkers'
 
 class Adapter {
 
-  constructor(options = {}) {
-    this.typeHandlers = Object.assign({}, builtInHandlers, options.customHandlers || {})
+  constructor() {
+    this.typeHandlers = builtInHandlers
   }
 
   // Accepts an array of blocks, or a single block.
@@ -48,7 +48,7 @@ class Adapter {
 
     // Not a block type, wrap it into .attributes and decouple the _type
     if (!typeHandler) {
-      const attributes = Object.assign({}, block)
+      const attributes = {...block}
       delete attributes._type
       return {
         type: type,

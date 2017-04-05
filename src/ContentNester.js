@@ -11,7 +11,7 @@ class ContentNester {
 
     this.spans.forEach(span => {
 
-      const dataAttributes = Object.assign({}, span)
+      const dataAttributes = {...span}
       delete dataAttributes.text
       delete dataAttributes.marks
       delete dataAttributes._type
