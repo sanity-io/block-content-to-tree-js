@@ -42,7 +42,8 @@ class ContentNester {
         const node = {
           content: [],
           mark: mark,
-          type: 'span'
+          type: 'span',
+          attributes: {}
         }
         currentNode.content.push(node)
         nodeStack.push(node)
