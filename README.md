@@ -2,9 +2,15 @@
 
 Converts the flat Sanity block content structure into a generic tree structure for easier transformation into other formats (HTML, React etc).
 
-## Example
+## Installation
+
+``npm install --save @sanity/block-content-to-tree``
+
+## Usage
 
 ```
+
+// The flat block content structure
 const data = {
   "_type": "block",
   "style": "normal",
@@ -29,13 +35,15 @@ const data = {
   ]
 }
 
+
+// Now convert it with block-content-to-tree
 const Adapter = require('@sanity/block-content-to-tree')
 const adapter = new Adapter()
 
 const tree = adapter.parse(data)
 ```
 
-This will result in ``tree`` being:
+This will result in the variable ``tree`` being:
 
 ```
 {
