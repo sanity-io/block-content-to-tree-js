@@ -1,6 +1,6 @@
-# block-content-adapter
+# block-content-to-tree
 
-Customizable parser for block editor output
+It feeds on flat block-content. It poops content structured as a tree.
 
 ## License
 
