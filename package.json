@@ -49,10 +49,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sanity-io/block-content-adapter.git"
+    "url": "git+https://github.com/sanity-io/block-content-to-tree-js.git"
   },
   "bugs": {
-    "url": "https://github.com/sanity-io/block-content-adapter/issues"
+    "url": "https://github.com/sanity-io/block-content-to-tree-js/issues"
   },
-  "homepage": "https://github.com/sanity-io/block-content-adapter#readme"
+  "homepage": "https://github.com/sanity-io/block-content-to-tree-js#readme"
 }

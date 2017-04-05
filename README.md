@@ -1,4 +1,4 @@
-# block-content-to-tree
+# block-content-to-tree-js
 
 Converts the flat Sanity block content structure into a generic tree structure for easier transformation into other formats (HTML, React etc).
 
