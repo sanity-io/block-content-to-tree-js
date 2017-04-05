@@ -1,6 +1,62 @@
 # block-content-to-tree
 
-It feeds on flat block-content. It poops content structured as a tree.
+Converts the flat Sanity block content structure into a generic tree structure for easier transformation into other formats (HTML, React etc).
+
+## Example
+
+```
+const data = {
+  "_type": "block",
+  "style": "normal",
+  "spans": [
+    {
+      "_type": "span",
+      "text": "String with an ",
+      "marks": []
+    },
+    {
+      "_type": "span",
+      "text": "italicized",
+      "marks": [
+        "em"
+      ]
+    },
+    {
+      "_type": "span",
+      "text": " word.",
+      "marks": []
+    }
+  ]
+}
+
+const Adapter = require('@sanity/block-content-to-tree')
+const adapter = new Adapter()
+
+const tree = adapter.parse(data)
+```
+
+This will result in ``tree`` being:
+
+```
+{
+    type: 'block',
+    style: 'normal',
+    content: [
+      'String with an ',
+      {
+        type: 'span',
+        attributes: {},
+        mark: 'em',
+        content: [
+          'italicized'
+        ]
+      },
+      ' word.'
+    ]
+  }
+```
+
+For more examples, see the tests.
 
 ## License
 
