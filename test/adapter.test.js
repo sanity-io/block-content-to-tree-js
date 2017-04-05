@@ -29,6 +29,7 @@ test('handles italicized text', {todo: false}, t => {
       'String with an ',
       {
         type: 'span',
+        attributes: {},
         mark: 'em',
         content: [
           'italicized'
@@ -51,6 +52,7 @@ test('handles underline text', {todo: false}, t => {
       'String with an ',
       {
         type: 'span',
+        attributes: {},
         mark: 'underline',
         content: [
           'underlined'
@@ -72,12 +74,14 @@ test('handles bold-underline text', {todo: false}, t => {
       'Normal',
       {
         type: 'span',
+        attributes: {},
         mark: 'strong',
         content: [
           'only-bold',
           {
             type: 'span',
             mark: 'underline',
+            attributes: {},
             content: [
               'bold-and-underline'
             ]
@@ -86,6 +90,7 @@ test('handles bold-underline text', {todo: false}, t => {
       },
       {
         type: 'span',
+        attributes: {},
         mark: 'underline',
         content: [
           'only-underline'
@@ -109,16 +114,19 @@ test('does not care about span marks order', {todo: false}, t => {
       {
         type: 'span',
         mark: 'strong',
+        attributes: {},
         content: [
           'strong',
           {
             type: 'span',
             mark: 'underline',
+            attributes: {},
             content: [
               'strong and underline',
               {
                 type: 'span',
                 mark: 'em',
+                attributes: {},
                 content: [
                   'strong and underline and emphasis'
                 ]
@@ -130,9 +138,11 @@ test('does not care about span marks order', {todo: false}, t => {
       {
         type: 'span',
         mark: 'em',
+        attributes: {},
         content: [
           {
             type: 'span',
+            attributes: {},
             mark: 'underline',
             content: [
               'underline and emphasis'
@@ -159,6 +169,7 @@ test('handles a messy text', {todo: false}, t => {
       {
         type: 'span',
         mark: 'code',
+        attributes: {},
         content: [
           'teh codez'
         ]
@@ -167,10 +178,12 @@ test('handles a messy text', {todo: false}, t => {
       {
         type: 'span',
         mark: 'strong',
+        attributes: {},
         content: [
           'all ',
           {
             type: 'span',
+            attributes: {},
             mark: 'underline',
             content: [
               'fun'
@@ -179,6 +192,7 @@ test('handles a messy text', {todo: false}, t => {
           ' and ',
           {
             type: 'span',
+            attributes: {},
             mark: 'em',
             content: [
               'games'
@@ -254,6 +268,7 @@ test('handles messy link text', {todo: false}, t => {
               }
             ],
             type: 'span',
+            attributes: {},
             mark: 'strong'
           },
           {
@@ -269,6 +284,7 @@ test('handles messy link text', {todo: false}, t => {
           }
         ],
         type: 'span',
+        attributes: {},
         mark: 'em'
       },
       '.'
@@ -298,6 +314,7 @@ test('handles a numbered list', {todo: false}, t => {
           'Two has ',
           {
             type: 'span',
+            attributes: {},
             mark: 'strong',
             content: [
               'bold'
@@ -340,6 +357,7 @@ test('handles a bulleted list', {todo: false}, t => {
           'expressive',
           {
             type: 'span',
+            attributes: {},
             mark: 'strong',
             content: [
               'programmer'
@@ -409,6 +427,7 @@ test('handles multiple lists', {todo: false}, t => {
             {
               type: 'span',
               mark: 'strong',
+              attributes: {},
               content: [
                 'something strong'
               ]
