@@ -34,6 +34,10 @@ class Adapter {
       return parsedData
     }
 
+    if (!data || !data._type) {
+      throw new Error(`Input must be an Array or an Object (with a ._type) - got ${data}`)
+    }
+
     return this.parseSingleBlock(data)
   }
 

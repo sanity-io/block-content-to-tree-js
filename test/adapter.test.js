@@ -5,6 +5,13 @@ import Adapter from '../src/Adapter.js'
 
 const adapter = new Adapter()
 
+test('validates input', {todo: false}, t => {
+  t.throws(() => {
+    adapter.parse(undefined)
+  }, {message: 'Input must be an Array or an Object (with a ._type) - got undefined'}, {})
+  t.end()
+})
+
 test('handles a normal string block', {todo: false}, t => {
   const input = require('./fixtures/normal-text.json')
   const expected = {
