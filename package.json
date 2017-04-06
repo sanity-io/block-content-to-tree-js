@@ -1,7 +1,7 @@
 {
   "name": "@sanity/block-content-to-tree",
   "description": "Converts the flat Sanity block content structure into a generic tree structure for easier transformation into other formats.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "lib/index.js",
   "umd": "umd/index.min.js",
   "scripts": {
@@ -22,7 +22,6 @@
   "author": "Sanity <hello@sanity.io>",
   "license": "MIT",
   "dependencies": {
-    "lodash.omit": "^4.5.0",
     "in-publish": "^2.0.0"
   },
   "devDependencies": {
