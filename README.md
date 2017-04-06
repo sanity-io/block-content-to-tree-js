@@ -6,9 +6,9 @@ Converts the flat Sanity block content structure into a generic tree structure f
 
 ``npm install --save @sanity/block-content-to-tree``
 
-## Usage
+## Quick example
 
-```
+```js
 
 // The flat block content structure
 const data = {
@@ -45,7 +45,7 @@ const tree = adapter.parse(data)
 
 This will result in the variable ``tree`` being:
 
-```
+```js
 {
     type: 'block',
     style: 'normal',
@@ -64,7 +64,61 @@ This will result in the variable ``tree`` being:
   }
 ```
 
-For more examples, see the tests.
+## Entities
+
+### Block (text)
+
+```js
+{
+  type: 'block',
+  style: 'normal' // Text style
+  mark: 'em', // Mark indicating all content is wrapped in bold.
+  content: [
+    'Hello world! ', // Span with no marks or attributes (plain text).
+    {
+      type: 'span',
+      // Data attributes for this span
+      attributes: {link: {href: 'http://...'}},
+      mark: 'strong',
+      // The  text content for the span
+      // Always an array with a single plain text.
+      // An array to keep format consistent with block.content.
+      content: [
+        'I am a link!'
+      ]
+    }
+  ]
+}
+
+```
+
+### List
+
+Root element
+
+```js
+{
+  type: 'list',
+  itemStyle: 'bullet' // The list style
+  // Items are blocks (see above)
+  items: [
+    {block},
+    {block}
+  ]
+}
+
+```
+
+### Custom blocks
+
+```js
+{
+  type: 'author' // Whatever, but never 'block' (built in type)
+  attributes: { // Custom attributes for the type
+    name: 'John Ronald Reuel Tolkien',
+  }
+}
+```
 
 ## License
 
