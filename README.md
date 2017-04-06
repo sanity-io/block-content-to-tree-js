@@ -120,6 +120,11 @@ Root element
 }
 ```
 
+## More information / examples
+
+Please see the tests.
+
+
 ## License
 
 MIT-licensed
