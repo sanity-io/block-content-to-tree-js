@@ -1,6 +1,25 @@
 import builtInHandlers from './type-handlers'
 import {isList} from './type-checkers'
 
+function parseListBlocks(blocks, typeHandlers) {
+  return typeHandlers.list(blocks)
+}
+
+function parseSingleBlock(block, typeHandlers) {
+  const type = block._type
+  const typeHandler = typeHandlers[type]
+
+  // Not a block type, wrap it into .attributes and decouple the _type
+  if (!typeHandler) {
+    const attributes = {...block}
+    delete attributes._type
+    return {
+      type: type,
+      attributes: attributes
+    }
+  }
+  return typeHandler(block)
+}
 
 class BlockContentToTree {
 
@@ -25,10 +44,10 @@ class BlockContentToTree {
           if (nextBlock.listItem !== block.listItem) {
             const completeList = Array.from(listBlocks)
             listBlocks = []
-            parsedData.push(this.parseListBlocks(completeList))
+            parsedData.push(parseListBlocks(completeList, this.typeHandlers))
           }
         } else {
-          parsedData.push(this.parseSingleBlock(block))
+          parsedData.push(parseSingleBlock(block, this.typeHandlers))
         }
       })
       return parsedData
@@ -38,30 +57,8 @@ class BlockContentToTree {
       throw new Error(`Input must be an Array or an Object (with a ._type) - got ${data}`)
     }
 
-    return this.parseSingleBlock(data)
+    return parseSingleBlock(data, this.typeHandlers)
   }
-
-  parseListBlocks(blocks) {
-    return this.typeHandlers.list(blocks)
-  }
-
-
-  parseSingleBlock(block) {
-    const type = block._type
-    const typeHandler = this.typeHandlers[type]
-
-    // Not a block type, wrap it into .attributes and decouple the _type
-    if (!typeHandler) {
-      const attributes = {...block}
-      delete attributes._type
-      return {
-        type: type,
-        attributes: attributes
-      }
-    }
-    return typeHandler(block)
-  }
-
 }
 
 export default BlockContentToTree
