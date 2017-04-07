@@ -37,10 +37,10 @@ const data = {
 
 
 // Now convert it with block-content-to-tree
-const Adapter = require('@sanity/block-content-to-tree')
-const adapter = new Adapter()
+const BlockContentToTree = require('@sanity/block-content-to-tree')
+const blockContentToTree = new BlockContentToTree()
 
-const tree = adapter.parse(data)
+const tree = blockContentToTree.convert(data)
 ```
 
 This will result in the variable ``tree`` being:
