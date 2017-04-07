@@ -1,13 +1,13 @@
 /* eslint-disable id-length */
 
 import {test} from 'tap'
-import Adapter from '../src/Adapter.js'
+import BlockContentToTree from '../src/BlockContentToTree.js'
 
-const adapter = new Adapter()
+const blockContentToTree = new BlockContentToTree()
 
 test('validates input', {todo: false}, t => {
   t.throws(() => {
-    adapter.parse(undefined)
+    blockContentToTree.convert(undefined)
   }, {message: 'Input must be an Array or an Object (with a ._type) - got undefined'}, {})
   t.end()
 })
@@ -21,7 +21,7 @@ test('handles a normal string block', {todo: false}, t => {
       'Normal string of text.',
     ]
   }
-  const got = adapter.parse(input)
+  const got = blockContentToTree.convert(input)
   t.same(got, expected)
   t.end()
 })
@@ -45,7 +45,7 @@ test('handles italicized text', {todo: false}, t => {
       ' word.'
     ]
   }
-  const got = adapter.parse(input)
+  const got = blockContentToTree.convert(input)
   t.same(got, expected)
   t.end()
 })
@@ -68,7 +68,7 @@ test('handles underline text', {todo: false}, t => {
       ' word.'
     ]
   }
-  t.same(adapter.parse(input), expected)
+  t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
 
@@ -106,7 +106,7 @@ test('handles bold-underline text', {todo: false}, t => {
       'normal'
     ]
   }
-  t.same(adapter.parse(input), expected)
+  t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
 
@@ -160,8 +160,8 @@ test('does not care about span marks order', {todo: false}, t => {
       'normal again'
     ]
   }
-  t.same(adapter.parse(orderedInput), expected)
-  t.same(adapter.parse(reorderedInput), expected)
+  t.same(blockContentToTree.convert(orderedInput), expected)
+  t.same(blockContentToTree.convert(reorderedInput), expected)
   t.end()
 })
 
@@ -211,7 +211,7 @@ test('handles a messy text', {todo: false}, t => {
       ' someone gets p0wn3d.'
     ]
   }
-  t.same(adapter.parse(input), expected)
+  t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
 
@@ -236,7 +236,7 @@ test('handles simple link text', {todo: false}, t => {
       ' the rest'
     ]
   }
-  t.same(adapter.parse(input), expected)
+  t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
 
@@ -297,7 +297,7 @@ test('handles messy link text', {todo: false}, t => {
       '.'
     ]
   }
-  t.same(adapter.parse(input), expected)
+  t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
 
@@ -310,6 +310,7 @@ test('handles a numbered list', {todo: false}, t => {
       {
         type: 'block',
         style: 'normal',
+        extra: 'foo',
         content: [
           'One'
         ]
@@ -339,7 +340,7 @@ test('handles a numbered list', {todo: false}, t => {
       }
     ]
   }]
-  t.same(adapter.parse(input), expected)
+  t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
 
@@ -382,7 +383,7 @@ test('handles a bulleted list', {todo: false}, t => {
       }
     ]
   }]
-  t.same(adapter.parse(input), expected)
+  t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
 
@@ -444,7 +445,7 @@ test('handles multiple lists', {todo: false}, t => {
       ]
     }
   ]
-  t.same(adapter.parse(input), expected)
+  t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
 
@@ -453,11 +454,12 @@ test('handles a plain h2 block', {todo: false}, t => {
   const expected = {
     type: 'block',
     style: 'h2',
+    extra: 'heading_1234',
     content: [
       'Such h2 header, much amaze'
     ]
   }
-  t.same(adapter.parse(input), expected)
+  t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
 
@@ -470,7 +472,7 @@ test('handles a non-block type', {todo: false}, t => {
       name: 'Test Person'
     }
   }
-  const got = adapter.parse(input)
+  const got = blockContentToTree.convert(input)
   t.same(got, expected)
   t.end()
 })

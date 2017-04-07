@@ -1,6 +1,7 @@
 {
   "_type": "block",
   "style": "h2",
+  "extra": "heading_1234",
   "spans": [
     {
       "_type": "span",

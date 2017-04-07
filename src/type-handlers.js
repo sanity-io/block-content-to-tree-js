@@ -1,11 +1,15 @@
 import getContent from './ContentNester'
 
 const block = singleBlock => {
-  return {
+  const output = {
     type: 'block',
     style: singleBlock.style,
     content: getContent(singleBlock.spans)
   }
+  if (singleBlock.extra) {
+    output.extra = singleBlock.extra
+  }
+  return output
 }
 
 const list = listBlocks => {
@@ -13,11 +17,15 @@ const list = listBlocks => {
     type: 'list',
     itemStyle: listBlocks[0].listItem,
     items: listBlocks.map(listBlock => {
-      return {
+      const output = {
         type: 'block',
         style: listBlock.style,
         content: getContent(listBlock.spans)
       }
+      if (listBlock.extra) {
+        output.extra = listBlock.extra
+      }
+      return output
     })
   }
 }

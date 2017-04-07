@@ -2,6 +2,7 @@
   {
     "_type": "block",
     "listItem": "number",
+    "extra": "foo",
     "style": "normal",
     "spans": [
       {

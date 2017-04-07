@@ -1,1 +1,2 @@
-module.exports = require('./Adapter.js')
+import BlockContentToTree from './BlockContentToTree.js'
+module.exports = BlockContentToTree

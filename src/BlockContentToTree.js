@@ -2,7 +2,7 @@ import builtInHandlers from './type-handlers'
 import {isList} from './type-checkers'
 
 
-class Adapter {
+class BlockContentToTree {
 
   constructor() {
     this.typeHandlers = builtInHandlers
@@ -10,7 +10,7 @@ class Adapter {
 
   // Accepts an array of blocks, or a single block.
   // Returns same object type as input
-  parse(data) {
+  convert(data) {
     if (Array.isArray(data)) {
       const parsedData = []
       let listBlocks = []
@@ -64,4 +64,4 @@ class Adapter {
 
 }
 
-export default Adapter
+export default BlockContentToTree
