@@ -195,10 +195,10 @@ test('handles simple link text', () => {
         type: 'span',
         mark: {
           _type: 'link',
-          _key: '999ff39f',
+          _key: 'ck28pq',
           href: 'http://icanhas.cheezburger.com/'
         },
-        markKey: '999ff39f',
+        markKey: 'ck28pq',
         children: ['actual link text']
       },
       ' the rest'
@@ -231,11 +231,11 @@ test('handles messy link text', () => {
           }
         ],
         mark: {
-          _key: '999ff39f',
+          _key: 'ck28pq',
           _type: 'link',
           href: 'http://icanhas.cheezburger.com/'
         },
-        markKey: '999ff39f',
+        markKey: 'ck28pq',
         type: 'span'
       },
       '.'

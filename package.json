@@ -2,13 +2,9 @@
   "name": "@sanity/block-content-to-tree",
   "description":
     "Converts the flat Sanity block content structure into a generic tree structure for easier transformation into other formats.",
-  "version": "0.1.1",
+  "version": "0.1.2-next",
   "main": "lib/index.js",
   "umd": "umd/index.min.js",
-  "browser": {
-    "./src/keyGenerators/node.js": "./src/keyGenerators/browser.js",
-    "./lib/keyGenerators/node.js": "./lib/keyGenerators/browser.js"
-  },
   "scripts": {
     "browserify":
       "NODE_ENV=production BROWSERIFY_ENV=build browserify -t envify -g uglifyify lib/index.js -o umd/index.js --standalone=BlockContentAdapter",

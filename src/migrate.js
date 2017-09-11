@@ -1,5 +1,5 @@
 const objectAssign = require('object-assign')
-const generateKey = require('./keyGenerators/node')
+const generateKey = require('./generateKey')
 const knownSpanKeys = ['_type', 'text', 'marks']
 
 function migrate(content, options) {

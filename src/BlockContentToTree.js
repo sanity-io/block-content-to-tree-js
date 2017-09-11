@@ -26,7 +26,7 @@ function parseSingleBlock(block, typeHandlers) {
 class BlockContentToTree {
   constructor(options) {
     this.typeHandlers = builtInHandlers
-    this.options = options
+    this.options = objectAssign({staticKeys: true}, options)
   }
 
   // Accepts an array of blocks, or a single block.
