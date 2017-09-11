@@ -1,7 +1,7 @@
 /* eslint-disable id-length */
 const BlockContentToTree = require('../src/BlockContentToTree')
 
-const blockContentToTree = new BlockContentToTree()
+const blockContentToTree = new BlockContentToTree({staticKeys: true})
 
 test('validates input', () => {
   expect(() => blockContentToTree.convert(undefined)).toThrow(
@@ -14,7 +14,7 @@ test('handles a normal string block', () => {
   const expected = {
     type: 'block',
     style: 'normal',
-    content: ['Normal string of text.']
+    children: ['Normal string of text.']
   }
   const got = blockContentToTree.convert(input)
   expect(got).toEqual(expected)
@@ -25,13 +25,13 @@ test('handles italicized text', () => {
   const expected = {
     type: 'block',
     style: 'normal',
-    content: [
+    children: [
       'String with an ',
       {
         type: 'span',
-        attributes: {},
         mark: 'em',
-        content: ['italicized']
+        markKey: 'em',
+        children: ['italicized']
       },
       ' word.'
     ]
@@ -45,13 +45,13 @@ test('handles underline text', () => {
   const expected = {
     type: 'block',
     style: 'normal',
-    content: [
+    children: [
       'String with an ',
       {
         type: 'span',
-        attributes: {},
         mark: 'underline',
-        content: ['underlined']
+        markKey: 'underline',
+        children: ['underlined']
       },
       ' word.'
     ]
@@ -64,27 +64,27 @@ test('handles bold-underline text', () => {
   const expected = {
     type: 'block',
     style: 'normal',
-    content: [
+    children: [
       'Normal',
       {
         type: 'span',
-        attributes: {},
         mark: 'strong',
-        content: [
+        markKey: 'strong',
+        children: [
           'only-bold',
           {
             type: 'span',
             mark: 'underline',
-            attributes: {},
-            content: ['bold-and-underline']
+            markKey: 'underline',
+            children: ['bold-and-underline']
           }
         ]
       },
       {
         type: 'span',
-        attributes: {},
         mark: 'underline',
-        content: ['only-underline']
+        markKey: 'underline',
+        children: ['only-underline']
       },
       'normal'
     ]
@@ -98,25 +98,25 @@ test('does not care about span marks order', () => {
   const expected = {
     type: 'block',
     style: 'normal',
-    content: [
+    children: [
       'Normal',
       {
         type: 'span',
         mark: 'strong',
-        attributes: {},
-        content: [
+        markKey: 'strong',
+        children: [
           'strong',
           {
             type: 'span',
             mark: 'underline',
-            attributes: {},
-            content: [
+            markKey: 'underline',
+            children: [
               'strong and underline',
               {
                 type: 'span',
                 mark: 'em',
-                attributes: {},
-                content: ['strong and underline and emphasis']
+                markKey: 'em',
+                children: ['strong and underline and emphasis']
               }
             ]
           }
@@ -125,13 +125,13 @@ test('does not care about span marks order', () => {
       {
         type: 'span',
         mark: 'em',
-        attributes: {},
-        content: [
+        markKey: 'em',
+        children: [
           {
             type: 'span',
-            attributes: {},
             mark: 'underline',
-            content: ['underline and emphasis']
+            markKey: 'underline',
+            children: ['underline and emphasis']
           }
         ]
       },
@@ -147,33 +147,33 @@ test('handles a messy text', () => {
   const expected = {
     type: 'block',
     style: 'normal',
-    content: [
+    children: [
       'Hacking ',
       {
         type: 'span',
         mark: 'code',
-        attributes: {},
-        content: ['teh codez']
+        markKey: 'code',
+        children: ['teh codez']
       },
       ' is ',
       {
         type: 'span',
         mark: 'strong',
-        attributes: {},
-        content: [
+        markKey: 'strong',
+        children: [
           'all ',
           {
             type: 'span',
-            attributes: {},
             mark: 'underline',
-            content: ['fun']
+            markKey: 'underline',
+            children: ['fun']
           },
           ' and ',
           {
             type: 'span',
-            attributes: {},
             mark: 'em',
-            content: ['games']
+            markKey: 'em',
+            children: ['games']
           },
           ' until'
         ]
@@ -189,16 +189,17 @@ test('handles simple link text', () => {
   const expected = {
     type: 'block',
     style: 'normal',
-    content: [
+    children: [
       'String before link ',
       {
         type: 'span',
-        attributes: {
-          link: {
-            href: 'http://icanhas.cheezburger.com/'
-          }
+        mark: {
+          _type: 'link',
+          _key: '999ff39f',
+          href: 'http://icanhas.cheezburger.com/'
         },
-        content: ['actual link text']
+        markKey: '999ff39f',
+        children: ['actual link text']
       },
       ' the rest'
     ]
@@ -209,50 +210,74 @@ test('handles simple link text', () => {
 test('handles messy link text', () => {
   const input = require('./fixtures/link-messy-text.json')
   const expected = {
-    type: 'block',
-    style: 'normal',
-    content: [
+    children: [
       'String with link to ',
       {
-        type: 'span',
-        attributes: {
-          link: {
-            href: 'http://icanhas.cheezburger.com/'
-          }
-        },
-        content: ['internet ']
-      },
-      {
-        content: [
+        children: [
+          'internet ',
           {
-            content: [
+            children: [
               {
-                type: 'span',
-                attributes: {
-                  link: {
-                    href: 'http://icanhas.cheezburger.com/'
-                  }
-                },
-                content: ['is very strong and emphasis']
-              }
+                children: ['is very strong and emphasis'],
+                mark: 'strong',
+                markKey: 'strong',
+                type: 'span'
+              },
+              ' and just emphasis'
             ],
-            type: 'span',
-            attributes: {},
-            mark: 'strong'
-          },
-          {
-            type: 'span',
-            attributes: {
-              link: {
-                href: 'http://icanhas.cheezburger.com/'
-              }
-            },
-            content: [' and just emphasis']
+            mark: 'em',
+            markKey: 'em',
+            type: 'span'
           }
         ],
-        type: 'span',
-        attributes: {},
-        mark: 'em'
+        mark: {
+          _key: '999ff39f',
+          _type: 'link',
+          href: 'http://icanhas.cheezburger.com/'
+        },
+        markKey: '999ff39f',
+        type: 'span'
+      },
+      '.'
+    ],
+    style: 'normal',
+    type: 'block'
+  }
+  expect(blockContentToTree.convert(input)).toEqual(expected)
+})
+
+test('handles messy link text in new structure', () => {
+  const input = require('./fixtures/link-messy-text-new.json')
+  const expected = {
+    type: 'block',
+    style: 'normal',
+    children: [
+      'String with link to ',
+      {
+        children: [
+          'internet ',
+          {
+            children: [
+              {
+                children: ['is very strong and emphasis'],
+                mark: 'strong',
+                markKey: 'strong',
+                type: 'span'
+              },
+              ' and just emphasis'
+            ],
+            mark: 'em',
+            markKey: 'em',
+            type: 'span'
+          }
+        ],
+        mark: {
+          _key: 'zomgLink',
+          _type: 'link',
+          href: 'http://icanhas.cheezburger.com/'
+        },
+        markKey: 'zomgLink',
+        type: 'span'
       },
       '.'
     ]
@@ -271,18 +296,18 @@ test('handles a numbered list', () => {
           type: 'block',
           style: 'normal',
           extra: 'foo',
-          content: ['One']
+          children: ['One']
         },
         {
           type: 'block',
           style: 'normal',
-          content: [
+          children: [
             'Two has ',
             {
               type: 'span',
-              attributes: {},
               mark: 'strong',
-              content: ['bold']
+              markKey: 'strong',
+              children: ['bold']
             },
             ' word'
           ]
@@ -290,7 +315,7 @@ test('handles a numbered list', () => {
         {
           type: 'block',
           style: 'h2',
-          content: ['Three']
+          children: ['Three']
         }
       ]
     }
@@ -308,18 +333,18 @@ test('handles a bulleted list', () => {
         {
           type: 'block',
           style: 'normal',
-          content: ['I am the most']
+          children: ['I am the most']
         },
         {
           type: 'block',
           style: 'normal',
-          content: [
+          children: [
             'expressive',
             {
               type: 'span',
-              attributes: {},
               mark: 'strong',
-              content: ['programmer']
+              markKey: 'strong',
+              children: ['programmer']
             },
             'you know.'
           ]
@@ -327,7 +352,7 @@ test('handles a bulleted list', () => {
         {
           type: 'block',
           style: 'normal',
-          content: ['SAD!']
+          children: ['SAD!']
         }
       ]
     }
@@ -345,7 +370,7 @@ test('handles multiple lists', () => {
         {
           type: 'block',
           style: 'normal',
-          content: ['A single bulleted item']
+          children: ['A single bulleted item']
         }
       ]
     },
@@ -356,12 +381,12 @@ test('handles multiple lists', () => {
         {
           type: 'block',
           style: 'normal',
-          content: ['First numbered']
+          children: ['First numbered']
         },
         {
           type: 'block',
           style: 'normal',
-          content: ['Second numbered']
+          children: ['Second numbered']
         }
       ]
     },
@@ -372,13 +397,13 @@ test('handles multiple lists', () => {
         {
           type: 'block',
           style: 'normal',
-          content: [
+          children: [
             'A bullet with',
             {
               type: 'span',
               mark: 'strong',
-              attributes: {},
-              content: ['something strong']
+              markKey: 'strong',
+              children: ['something strong']
             }
           ]
         }
@@ -394,11 +419,12 @@ test('handles a plain h2 block', () => {
     type: 'block',
     style: 'h2',
     extra: 'heading_1234',
-    content: ['Such h2 header, much amaze']
+    children: ['Such h2 header, much amaze']
   }
   expect(blockContentToTree.convert(input)).toEqual(expected)
 })
 
+/*
 test('handles a non-block type', () => {
   const input = require('./fixtures/non-block.json')
   const expected = {
@@ -410,5 +436,6 @@ test('handles a non-block type', () => {
   const got = blockContentToTree.convert(input)
   expect(got).toEqual(expected)
 })
+*/
 
 /* eslint-enable id-length */

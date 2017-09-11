@@ -1,7 +1,7 @@
 const objectAssign = require('object-assign')
 
-module.exports = function nestContent(spans) {
-  const model = {content: []}
+module.exports = function nestContent(spans, parent) {
+  const model = {children: []}
   let nodeStack = [model]
 
   spans.forEach(span => {
@@ -17,7 +17,7 @@ module.exports = function nestContent(spans) {
     // Start at position one. Root is always plain and should never be removed. (?)
     if (nodeStack.length > 1) {
       for (pos; pos < nodeStack.length; pos++) {
-        const mark = nodeStack[pos].mark
+        const mark = nodeStack[pos].markKey
         // eslint-disable-next-line max-depth
         if (marksNeeded.includes(mark)) {
           const index = marksNeeded.indexOf(mark)
@@ -35,26 +35,26 @@ module.exports = function nestContent(spans) {
     let currentNode = nodeStack.slice(-1)[0]
     marksNeeded.forEach(mark => {
       const node = {
-        content: [],
-        mark: mark,
         type: 'span',
-        attributes: {}
+        children: [],
+        mark: parent.markDefs.find(def => def._key === mark) || mark,
+        markKey: mark
       }
-      currentNode.content.push(node)
+      currentNode.children.push(node)
       nodeStack.push(node)
       currentNode = node
     })
 
     if (Object.keys(dataAttributes).length) {
-      currentNode.content.push({
+      currentNode.children.push({
         type: 'span',
         attributes: dataAttributes,
-        content: [span.text]
+        children: [span.text]
       })
     } else {
-      currentNode.content.push(span.text)
+      currentNode.children.push(span.text)
     }
   })
 
-  return model.content
+  return model.children
 }

@@ -1,13 +1,13 @@
-const getContent = require('./ContentNester')
+const nestContent = require('./ContentNester')
 
-const block = singleBlock => {
+const block = node => {
   const output = {
     type: 'block',
-    style: singleBlock.style,
-    content: getContent(singleBlock.spans)
+    style: node.style,
+    children: nestContent(node.children, node)
   }
-  if (singleBlock.extra) {
-    output.extra = singleBlock.extra
+  if (node.extra) {
+    output.extra = node.extra
   }
   return output
 }
@@ -19,7 +19,7 @@ const list = listBlocks => ({
     const output = {
       type: 'block',
       style: listBlock.style,
-      content: getContent(listBlock.spans)
+      children: nestContent(listBlock.children, listBlock)
     }
     if (listBlock.extra) {
       output.extra = listBlock.extra

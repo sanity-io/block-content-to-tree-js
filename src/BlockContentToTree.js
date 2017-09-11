@@ -1,4 +1,5 @@
 const objectAssign = require('object-assign')
+const migrate = require('./migrate')
 const builtInHandlers = require('./type-handlers')
 const {isList} = require('./type-checkers')
 
@@ -23,18 +24,27 @@ function parseSingleBlock(block, typeHandlers) {
 }
 
 class BlockContentToTree {
-  constructor() {
+  constructor(options) {
     this.typeHandlers = builtInHandlers
+    this.options = options
   }
 
   // Accepts an array of blocks, or a single block.
   // Returns same object type as input
   convert(data) {
-    if (Array.isArray(data)) {
+    if (!Array.isArray(data) && (!data || !data._type)) {
+      throw new Error(
+        `Input must be an Array or an Object (with a ._type) - got ${data}`
+      )
+    }
+
+    const content = migrate(data, this.options)
+
+    if (Array.isArray(content)) {
       const parsedData = []
       let listBlocks = []
 
-      data.forEach((block, index, blocks) => {
+      content.forEach((block, index, blocks) => {
         if (isList(block)) {
           // Each item in a list comes in its own block
           // We bundle those togther in a single list object
@@ -53,13 +63,7 @@ class BlockContentToTree {
       return parsedData
     }
 
-    if (!data || !data._type) {
-      throw new Error(
-        `Input must be an Array or an Object (with a ._type) - got ${data}`
-      )
-    }
-
-    return parseSingleBlock(data, this.typeHandlers)
+    return parseSingleBlock(content, this.typeHandlers)
   }
 }
 
