@@ -1,2 +1,1 @@
-import BlockContentToTree from './BlockContentToTree.js'
-module.exports = BlockContentToTree
+module.exports = require('./BlockContentToTree')

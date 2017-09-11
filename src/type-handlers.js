@@ -1,4 +1,4 @@
-import getContent from './ContentNester'
+const getContent = require('./ContentNester')
 
 const block = singleBlock => {
   const output = {
@@ -12,25 +12,23 @@ const block = singleBlock => {
   return output
 }
 
-const list = listBlocks => {
-  return {
-    type: 'list',
-    itemStyle: listBlocks[0].listItem,
-    items: listBlocks.map(listBlock => {
-      const output = {
-        type: 'block',
-        style: listBlock.style,
-        content: getContent(listBlock.spans)
-      }
-      if (listBlock.extra) {
-        output.extra = listBlock.extra
-      }
-      return output
-    })
-  }
-}
+const list = listBlocks => ({
+  type: 'list',
+  itemStyle: listBlocks[0].listItem,
+  items: listBlocks.map(listBlock => {
+    const output = {
+      type: 'block',
+      style: listBlock.style,
+      content: getContent(listBlock.spans)
+    }
+    if (listBlock.extra) {
+      output.extra = listBlock.extra
+    }
+    return output
+  })
+})
 
-export default {
+module.exports = {
   block,
   list
 }

@@ -1,16 +1,13 @@
 class ContentNester {
-
   constructor(spans) {
     this.spans = spans
   }
 
   run() {
-
     const model = {content: []}
     let nodeStack = [model]
 
     this.spans.forEach(span => {
-
       const dataAttributes = {...span}
       delete dataAttributes.text
       delete dataAttributes.marks
@@ -24,7 +21,8 @@ class ContentNester {
       if (nodeStack.length > 1) {
         for (pos; pos < nodeStack.length; pos++) {
           const mark = nodeStack[pos].mark
-          if (marksNeeded.includes(mark)) { // eslint-disable-line max-depth
+          // eslint-disable-next-line max-depth
+          if (marksNeeded.includes(mark)) {
             const index = marksNeeded.indexOf(mark)
             marksNeeded.splice(index, 1)
           } else {
@@ -54,9 +52,7 @@ class ContentNester {
         currentNode.content.push({
           type: 'span',
           attributes: dataAttributes,
-          content: [
-            span.text
-          ]
+          content: [span.text]
         })
       } else {
         currentNode.content.push(span.text)
@@ -73,4 +69,4 @@ const getContent = spans => {
   return got
 }
 
-export default getContent
+module.exports = getContent

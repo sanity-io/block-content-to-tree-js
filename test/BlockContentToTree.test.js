@@ -1,14 +1,14 @@
 /* eslint-disable id-length */
-
-import {test} from 'tap'
-import BlockContentToTree from '../src/BlockContentToTree.js'
+const {test} = require('tap')
+const BlockContentToTree = require('../src/BlockContentToTree.js')
 
 const blockContentToTree = new BlockContentToTree()
 
 test('validates input', {todo: false}, t => {
-  t.throws(() => {
-    blockContentToTree.convert(undefined)
-  }, {message: 'Input must be an Array or an Object (with a ._type) - got undefined'}, {})
+  t.throws(() => blockContentToTree.convert(undefined), {
+    message:
+      'Input must be an Array or an Object (with a ._type) - got undefined'
+  })
   t.end()
 })
 
@@ -17,15 +17,12 @@ test('handles a normal string block', {todo: false}, t => {
   const expected = {
     type: 'block',
     style: 'normal',
-    content: [
-      'Normal string of text.',
-    ]
+    content: ['Normal string of text.']
   }
   const got = blockContentToTree.convert(input)
   t.same(got, expected)
   t.end()
 })
-
 
 test('handles italicized text', {todo: false}, t => {
   const input = require('./fixtures/italicized-text.json')
@@ -38,9 +35,7 @@ test('handles italicized text', {todo: false}, t => {
         type: 'span',
         attributes: {},
         mark: 'em',
-        content: [
-          'italicized'
-        ]
+        content: ['italicized']
       },
       ' word.'
     ]
@@ -61,9 +56,7 @@ test('handles underline text', {todo: false}, t => {
         type: 'span',
         attributes: {},
         mark: 'underline',
-        content: [
-          'underlined'
-        ]
+        content: ['underlined']
       },
       ' word.'
     ]
@@ -89,9 +82,7 @@ test('handles bold-underline text', {todo: false}, t => {
             type: 'span',
             mark: 'underline',
             attributes: {},
-            content: [
-              'bold-and-underline'
-            ]
+            content: ['bold-and-underline']
           }
         ]
       },
@@ -99,9 +90,7 @@ test('handles bold-underline text', {todo: false}, t => {
         type: 'span',
         attributes: {},
         mark: 'underline',
-        content: [
-          'only-underline'
-        ]
+        content: ['only-underline']
       },
       'normal'
     ]
@@ -134,9 +123,7 @@ test('does not care about span marks order', {todo: false}, t => {
                 type: 'span',
                 mark: 'em',
                 attributes: {},
-                content: [
-                  'strong and underline and emphasis'
-                ]
+                content: ['strong and underline and emphasis']
               }
             ]
           }
@@ -151,9 +138,7 @@ test('does not care about span marks order', {todo: false}, t => {
             type: 'span',
             attributes: {},
             mark: 'underline',
-            content: [
-              'underline and emphasis'
-            ]
+            content: ['underline and emphasis']
           }
         ]
       },
@@ -164,7 +149,6 @@ test('does not care about span marks order', {todo: false}, t => {
   t.same(blockContentToTree.convert(reorderedInput), expected)
   t.end()
 })
-
 
 test('handles a messy text', {todo: false}, t => {
   const input = require('./fixtures/messy-text.json')
@@ -177,9 +161,7 @@ test('handles a messy text', {todo: false}, t => {
         type: 'span',
         mark: 'code',
         attributes: {},
-        content: [
-          'teh codez'
-        ]
+        content: ['teh codez']
       },
       ' is ',
       {
@@ -192,18 +174,14 @@ test('handles a messy text', {todo: false}, t => {
             type: 'span',
             attributes: {},
             mark: 'underline',
-            content: [
-              'fun'
-            ]
+            content: ['fun']
           },
           ' and ',
           {
             type: 'span',
             attributes: {},
             mark: 'em',
-            content: [
-              'games'
-            ]
+            content: ['games']
           },
           ' until'
         ]
@@ -229,9 +207,7 @@ test('handles simple link text', {todo: false}, t => {
             href: 'http://icanhas.cheezburger.com/'
           }
         },
-        content: [
-          'actual link text'
-        ]
+        content: ['actual link text']
       },
       ' the rest'
     ]
@@ -254,9 +230,7 @@ test('handles messy link text', {todo: false}, t => {
             href: 'http://icanhas.cheezburger.com/'
           }
         },
-        content: [
-          'internet '
-        ]
+        content: ['internet ']
       },
       {
         content: [
@@ -269,9 +243,7 @@ test('handles messy link text', {todo: false}, t => {
                     href: 'http://icanhas.cheezburger.com/'
                   }
                 },
-                content: [
-                  'is very strong and emphasis'
-                ]
+                content: ['is very strong and emphasis']
               }
             ],
             type: 'span',
@@ -285,9 +257,7 @@ test('handles messy link text', {todo: false}, t => {
                 href: 'http://icanhas.cheezburger.com/'
               }
             },
-            content: [
-              ' and just emphasis'
-            ]
+            content: [' and just emphasis']
           }
         ],
         type: 'span',
@@ -303,86 +273,77 @@ test('handles messy link text', {todo: false}, t => {
 
 test('handles a numbered list', {todo: false}, t => {
   const input = require('./fixtures/list-numbered-blocks.json')
-  const expected = [{
-    type: 'list',
-    itemStyle: 'number',
-    items: [
-      {
-        type: 'block',
-        style: 'normal',
-        extra: 'foo',
-        content: [
-          'One'
-        ]
-      },
-      {
-        type: 'block',
-        style: 'normal',
-        content: [
-          'Two has ',
-          {
-            type: 'span',
-            attributes: {},
-            mark: 'strong',
-            content: [
-              'bold'
-            ]
-          },
-          ' word'
-        ]
-      },
-      {
-        type: 'block',
-        style: 'h2',
-        content: [
-          'Three'
-        ]
-      }
-    ]
-  }]
+  const expected = [
+    {
+      type: 'list',
+      itemStyle: 'number',
+      items: [
+        {
+          type: 'block',
+          style: 'normal',
+          extra: 'foo',
+          content: ['One']
+        },
+        {
+          type: 'block',
+          style: 'normal',
+          content: [
+            'Two has ',
+            {
+              type: 'span',
+              attributes: {},
+              mark: 'strong',
+              content: ['bold']
+            },
+            ' word'
+          ]
+        },
+        {
+          type: 'block',
+          style: 'h2',
+          content: ['Three']
+        }
+      ]
+    }
+  ]
   t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
 
-
 test('handles a bulleted list', {todo: false}, t => {
   const input = require('./fixtures/list-bulleted-blocks.json')
-  const expected = [{
-    type: 'list',
-    itemStyle: 'bullet',
-    items: [
-      {
-        type: 'block',
-        style: 'normal',
-        content: [
-          'I am the most'
-        ]
-      },
-      {
-        type: 'block',
-        style: 'normal',
-        content: [
-          'expressive',
-          {
-            type: 'span',
-            attributes: {},
-            mark: 'strong',
-            content: [
-              'programmer'
-            ]
-          },
-          'you know.'
-        ]
-      },
-      {
-        type: 'block',
-        style: 'normal',
-        content: [
-          'SAD!'
-        ]
-      }
-    ]
-  }]
+  const expected = [
+    {
+      type: 'list',
+      itemStyle: 'bullet',
+      items: [
+        {
+          type: 'block',
+          style: 'normal',
+          content: ['I am the most']
+        },
+        {
+          type: 'block',
+          style: 'normal',
+          content: [
+            'expressive',
+            {
+              type: 'span',
+              attributes: {},
+              mark: 'strong',
+              content: ['programmer']
+            },
+            'you know.'
+          ]
+        },
+        {
+          type: 'block',
+          style: 'normal',
+          content: ['SAD!']
+        }
+      ]
+    }
+  ]
   t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
@@ -397,9 +358,7 @@ test('handles multiple lists', {todo: false}, t => {
         {
           type: 'block',
           style: 'normal',
-          content: [
-            'A single bulleted item'
-          ]
+          content: ['A single bulleted item']
         }
       ]
     },
@@ -410,16 +369,12 @@ test('handles multiple lists', {todo: false}, t => {
         {
           type: 'block',
           style: 'normal',
-          content: [
-            'First numbered'
-          ]
+          content: ['First numbered']
         },
         {
           type: 'block',
           style: 'normal',
-          content: [
-            'Second numbered'
-          ]
+          content: ['Second numbered']
         }
       ]
     },
@@ -436,9 +391,7 @@ test('handles multiple lists', {todo: false}, t => {
               type: 'span',
               mark: 'strong',
               attributes: {},
-              content: [
-                'something strong'
-              ]
+              content: ['something strong']
             }
           ]
         }
@@ -455,14 +408,11 @@ test('handles a plain h2 block', {todo: false}, t => {
     type: 'block',
     style: 'h2',
     extra: 'heading_1234',
-    content: [
-      'Such h2 header, much amaze'
-    ]
+    content: ['Such h2 header, much amaze']
   }
   t.same(blockContentToTree.convert(input), expected)
   t.end()
 })
-
 
 test('handles a non-block type', {todo: false}, t => {
   const input = require('./fixtures/non-block.json')

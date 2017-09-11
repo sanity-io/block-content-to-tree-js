@@ -1,5 +1,5 @@
-import builtInHandlers from './type-handlers'
-import {isList} from './type-checkers'
+const builtInHandlers = require('./type-handlers')
+const {isList} = require('./type-checkers')
 
 function parseListBlocks(blocks, typeHandlers) {
   return typeHandlers.list(blocks)
@@ -61,4 +61,4 @@ class BlockContentToTree {
   }
 }
 
-export default BlockContentToTree
+module.exports = BlockContentToTree
