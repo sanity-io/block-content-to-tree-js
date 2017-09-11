@@ -1,9 +1,11 @@
+const objectAssign = require('object-assign')
+
 module.exports = function nestContent(spans) {
   const model = {content: []}
   let nodeStack = [model]
 
   spans.forEach(span => {
-    const dataAttributes = {...span}
+    const dataAttributes = objectAssign({}, span)
     delete dataAttributes.text
     delete dataAttributes.marks
     delete dataAttributes._type

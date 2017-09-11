@@ -1,18 +1,15 @@
 /* eslint-disable id-length */
-const {test} = require('tap')
-const BlockContentToTree = require('../src/BlockContentToTree.js')
+const BlockContentToTree = require('../src/BlockContentToTree')
 
 const blockContentToTree = new BlockContentToTree()
 
-test('validates input', {todo: false}, t => {
-  t.throws(() => blockContentToTree.convert(undefined), {
-    message:
-      'Input must be an Array or an Object (with a ._type) - got undefined'
-  })
-  t.end()
+test('validates input', () => {
+  expect(() => blockContentToTree.convert(undefined)).toThrow(
+    'Input must be an Array or an Object (with a ._type) - got undefined'
+  )
 })
 
-test('handles a normal string block', {todo: false}, t => {
+test('handles a normal string block', () => {
   const input = require('./fixtures/normal-text.json')
   const expected = {
     type: 'block',
@@ -20,11 +17,10 @@ test('handles a normal string block', {todo: false}, t => {
     content: ['Normal string of text.']
   }
   const got = blockContentToTree.convert(input)
-  t.same(got, expected)
-  t.end()
+  expect(got).toEqual(expected)
 })
 
-test('handles italicized text', {todo: false}, t => {
+test('handles italicized text', () => {
   const input = require('./fixtures/italicized-text.json')
   const expected = {
     type: 'block',
@@ -41,11 +37,10 @@ test('handles italicized text', {todo: false}, t => {
     ]
   }
   const got = blockContentToTree.convert(input)
-  t.same(got, expected)
-  t.end()
+  expect(got).toEqual(expected)
 })
 
-test('handles underline text', {todo: false}, t => {
+test('handles underline text', () => {
   const input = require('./fixtures/underlined-text.json')
   const expected = {
     type: 'block',
@@ -61,11 +56,10 @@ test('handles underline text', {todo: false}, t => {
       ' word.'
     ]
   }
-  t.same(blockContentToTree.convert(input), expected)
-  t.end()
+  expect(blockContentToTree.convert(input)).toEqual(expected)
 })
 
-test('handles bold-underline text', {todo: false}, t => {
+test('handles bold-underline text', () => {
   const input = require('./fixtures/bold-underline-text.json')
   const expected = {
     type: 'block',
@@ -95,11 +89,10 @@ test('handles bold-underline text', {todo: false}, t => {
       'normal'
     ]
   }
-  t.same(blockContentToTree.convert(input), expected)
-  t.end()
+  expect(blockContentToTree.convert(input)).toEqual(expected)
 })
 
-test('does not care about span marks order', {todo: false}, t => {
+test('does not care about span marks order', () => {
   const orderedInput = require('./fixtures/marks-ordered-text.json')
   const reorderedInput = require('./fixtures/marks-reordered-text.json')
   const expected = {
@@ -145,12 +138,11 @@ test('does not care about span marks order', {todo: false}, t => {
       'normal again'
     ]
   }
-  t.same(blockContentToTree.convert(orderedInput), expected)
-  t.same(blockContentToTree.convert(reorderedInput), expected)
-  t.end()
+  expect(blockContentToTree.convert(orderedInput)).toEqual(expected)
+  expect(blockContentToTree.convert(reorderedInput)).toEqual(expected)
 })
 
-test('handles a messy text', {todo: false}, t => {
+test('handles a messy text', () => {
   const input = require('./fixtures/messy-text.json')
   const expected = {
     type: 'block',
@@ -189,11 +181,10 @@ test('handles a messy text', {todo: false}, t => {
       ' someone gets p0wn3d.'
     ]
   }
-  t.same(blockContentToTree.convert(input), expected)
-  t.end()
+  expect(blockContentToTree.convert(input)).toEqual(expected)
 })
 
-test('handles simple link text', {todo: false}, t => {
+test('handles simple link text', () => {
   const input = require('./fixtures/link-simple-text.json')
   const expected = {
     type: 'block',
@@ -212,11 +203,10 @@ test('handles simple link text', {todo: false}, t => {
       ' the rest'
     ]
   }
-  t.same(blockContentToTree.convert(input), expected)
-  t.end()
+  expect(blockContentToTree.convert(input)).toEqual(expected)
 })
 
-test('handles messy link text', {todo: false}, t => {
+test('handles messy link text', () => {
   const input = require('./fixtures/link-messy-text.json')
   const expected = {
     type: 'block',
@@ -267,11 +257,10 @@ test('handles messy link text', {todo: false}, t => {
       '.'
     ]
   }
-  t.same(blockContentToTree.convert(input), expected)
-  t.end()
+  expect(blockContentToTree.convert(input)).toEqual(expected)
 })
 
-test('handles a numbered list', {todo: false}, t => {
+test('handles a numbered list', () => {
   const input = require('./fixtures/list-numbered-blocks.json')
   const expected = [
     {
@@ -306,11 +295,10 @@ test('handles a numbered list', {todo: false}, t => {
       ]
     }
   ]
-  t.same(blockContentToTree.convert(input), expected)
-  t.end()
+  expect(blockContentToTree.convert(input)).toEqual(expected)
 })
 
-test('handles a bulleted list', {todo: false}, t => {
+test('handles a bulleted list', () => {
   const input = require('./fixtures/list-bulleted-blocks.json')
   const expected = [
     {
@@ -344,11 +332,10 @@ test('handles a bulleted list', {todo: false}, t => {
       ]
     }
   ]
-  t.same(blockContentToTree.convert(input), expected)
-  t.end()
+  expect(blockContentToTree.convert(input)).toEqual(expected)
 })
 
-test('handles multiple lists', {todo: false}, t => {
+test('handles multiple lists', () => {
   const input = require('./fixtures/list-both-types-blocks.json')
   const expected = [
     {
@@ -398,11 +385,10 @@ test('handles multiple lists', {todo: false}, t => {
       ]
     }
   ]
-  t.same(blockContentToTree.convert(input), expected)
-  t.end()
+  expect(blockContentToTree.convert(input)).toEqual(expected)
 })
 
-test('handles a plain h2 block', {todo: false}, t => {
+test('handles a plain h2 block', () => {
   const input = require('./fixtures/h2-text.json')
   const expected = {
     type: 'block',
@@ -410,11 +396,10 @@ test('handles a plain h2 block', {todo: false}, t => {
     extra: 'heading_1234',
     content: ['Such h2 header, much amaze']
   }
-  t.same(blockContentToTree.convert(input), expected)
-  t.end()
+  expect(blockContentToTree.convert(input)).toEqual(expected)
 })
 
-test('handles a non-block type', {todo: false}, t => {
+test('handles a non-block type', () => {
   const input = require('./fixtures/non-block.json')
   const expected = {
     type: 'author',
@@ -423,8 +408,7 @@ test('handles a non-block type', {todo: false}, t => {
     }
   }
   const got = blockContentToTree.convert(input)
-  t.same(got, expected)
-  t.end()
+  expect(got).toEqual(expected)
 })
 
 /* eslint-enable id-length */

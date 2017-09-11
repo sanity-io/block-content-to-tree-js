@@ -1,3 +1,4 @@
+const objectAssign = require('object-assign')
 const builtInHandlers = require('./type-handlers')
 const {isList} = require('./type-checkers')
 
@@ -11,7 +12,7 @@ function parseSingleBlock(block, typeHandlers) {
 
   // Not a block type, wrap it into .attributes and decouple the _type
   if (!typeHandler) {
-    const attributes = {...block}
+    const attributes = objectAssign({}, block)
     delete attributes._type
     return {
       type: type,
@@ -22,7 +23,6 @@ function parseSingleBlock(block, typeHandlers) {
 }
 
 class BlockContentToTree {
-
   constructor() {
     this.typeHandlers = builtInHandlers
   }
@@ -54,7 +54,9 @@ class BlockContentToTree {
     }
 
     if (!data || !data._type) {
-      throw new Error(`Input must be an Array or an Object (with a ._type) - got ${data}`)
+      throw new Error(
+        `Input must be an Array or an Object (with a ._type) - got ${data}`
+      )
     }
 
     return parseSingleBlock(data, this.typeHandlers)
